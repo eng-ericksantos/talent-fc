@@ -22,7 +22,7 @@ Para se posicionar como a ferramenta de referência definitiva durante a gamepla
 
 ### 3. Módulos Avançados de Mercado e Scouting
 * **⏳ Contratos Expirando (Pré-Contratos):** Uma aba dedicada a listar atletas cujos contratos na vida real/simulação estão nos últimos 6 meses, permitindo que o usuário os contrate sem custo de transferência na próxima janela.
-* **👥 Sósias de Estilo de Jogo ("O Novo X"):** Um algoritmo inteligente de recomendação. Caso o usuário queira um supercraque (ex: Haaland ou De Bruyne), mas não tenha orçamento, o app analisa a distribuição de atributos físicos e técnicos para sugerir alternativas acessíveis e idênticas em estilo de jogo.
+* **👥 Sósias de Estilo de Jogo ("O Novo X"):** Sistema inteligente de recomendação baseado em Similaridade Vetorial. O usuário digita o nome de qualquer jogador (ativo ou lenda aposentada como "Zidane" ou "Ronaldinho"). O algoritmo cruza a distribuição de atributos físicos, técnicos e posições para sugerir atletas jovens, promissores e de baixo custo com estilo de jogo idêntico ao da referência informada.
 * **💸 Team Builder & Calculadora de Orçamento:** O usuário insere o orçamento disponível do seu clube (ex: €30 milhões) e as posições que deseja preencher. O app gera a melhor combinação possível de contratações otimizando o valor restante.
 * **📊 Alerta de Evolução Real-Time (Tracker):** Permite registrar o progresso de elenco de forma offline e comparar se as atualizações semanais de atributos feitas pela EA coincidem com a evolução do jogador na simulação.
 
@@ -49,8 +49,8 @@ O projeto foi arquitetado priorizando alta performance, escalabilidade, facilida
 * **Otimização de Mídia (Imagens e Fotos):** Para manter o banco de dados leve e evitar custos de armazenamento em nuvem, o aplicativo consome as fotos via link original (*hotlinking*). 
   * *Mecanismo de Resiliência:* O frontend Angular monitora falhas de carregamento através do evento `(error)` para injetar uma imagem genérica padrão caso a foto original esteja offline ou indefinida.
   * *Image Proxy Shield:* Para mitigar proteções de segurança de origem da fonte externa (Erros 403 / Referer Header), a API própria disponibiliza uma rota de proxy ultraleve que mascara a requisição da imagem e a repassa de forma limpa para o aplicativo móvel.
-* **Banco de Dados (Poliglota):**
-  * **MongoDB:** Armazenamento principal da volumosa coleção de dados dos jogadores indexados em documentos JSON (atributos, caminhos de imagens, históricos).
+* **Banco de Dados (Poliglota) & Mecanismo de Busca:**
+  * **MongoDB:** Armazenamento principal da volumosa coleção de dados dos jogadores ativos e da coleção `historical_legends` (banco de sementes estáticas de atletas aposentados/ícones usado como base para o algoritmo de sósias de estilo de jogo).
   * **PostgreSQL:** Banco relacional para gerenciar dados de usuários comuns, listas de favoritos, logs e a tabela de configurações globais (`app_settings`).
 * **Orquestração:** **Docker** isolando todos os ambientes (bancos de dados, API e Workers) para garantir estabilidade absoluta do desenvolvimento à produção.
 
@@ -62,7 +62,7 @@ Para manter o código-fonte limpo, escalável e de fácil entendimento por desen
 
 1. **Tratamento de Erros Resiliente:** A comunicação do front-end com os serviços da API deve utilizar **Service-Level Error Handlers** (gerenciadores de erro a nível de serviço específico) em vez de interceptors globais genéricos. Isso garante o tratamento isolado de falhas de rede sem quebrar fluxos concorrentes do aplicativo.
 2. **Transformações de Dados Imutáveis:** No processamento de listas de jogadores dentro do app, rotinas de filtragem complexas (por país, idade ou times) devem utilizar obrigatoriamente métodos imutáveis como `.filter()` em vez de `.find()`. Isso é imperativo, pois múltiplos jogadores compartilham os mesmos identificadores contextuais (como a mesma nacionalidade ou faixa de preço), exigindo o retorno completo das coleções correspondentes.
-3. **Performance UI:** Componentes de listas de jogadores devem implementar padrões de *Virtual Scroll* (rolagem virtual) nativos do ecossistema Ionic/Angular para renderizar no DOM apenas os elementos visíveis na tela, mitigando gargalos de desempenho em aparelhos mais antigos.
+3. **Performance UI:** Componentes de listas de jogadores devem implementar padrões de *Virtual Scroll* (rolagem virtual) nativos do ecossistema Ionic/Angular para renderizar no DOM apenas os elements visíveis na tela, mitigando gargalos de desempenho em aparelhos mais antigos.
 
 ---
 
@@ -80,7 +80,7 @@ O aplicativo foi projetado para gerar receita sustentável através da plataform
 ```text
 ├── .github/                # Configurações de CI/CD e templates
 ├── backend/                # Código do servidor API e scripts de extração (Python/NestJS)
-│   ├── src/                # Endpoints, lógica de negócios e rota de proxy de imagens
+│   ├── src/                # Endpoints, lógica de negócios, algoritmo de sósias e proxy de imagens
 │   ├── scraper/            # Worker de sincronização guiado pela tabela app_settings
 │   ├── Dockerfile          # Configuração do container do backend
 │   └── requirements.txt    # Dependências do backend
