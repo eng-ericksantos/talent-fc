@@ -3,6 +3,7 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -11,8 +12,26 @@ async function bootstrap() {
     new FastifyAdapter({ logger: true }),
   );
 
-  app.enableCors();
+  app.enableCors({
+    origin: ['http://localhost:4200', 'http://localhost:8100'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  });
+
   app.setGlobalPrefix('api/v1');
+
+  const configuracaoSwagger = new DocumentBuilder()
+    .setTitle('TalentFC Core API')
+    .setDescription(
+      'API de fornecimento de dados de jogadores para o Modo Carreira do TalentFC. ' +
+      'Expõe endpoints para listagem, filtro por categoria e busca de jogadores.',
+    )
+    .setVersion('1.0')
+    .build();
+
+  const documento = SwaggerModule.createDocument(app, configuracaoSwagger);
+  SwaggerModule.setup('api/docs', app, documento);
 
   const porta = process.env.PORT ?? 3000;
   await app.listen(porta, '0.0.0.0');
