@@ -1,0 +1,75 @@
+<div class="flex flex-col h-screen bg-soccer-dark">
+
+  <!-- Cabeçalho -->
+  <header class="shrink-0 flex justify-between items-center p-4 border-b border-slate-800 bg-soccer-dark">
+    <span class="font-extrabold text-2xl tracking-tight">
+      <span class="text-soccer-green">Talent</span><span class="text-white">FC</span>
+    </span>
+    <div class="flex gap-2">
+      @for (idioma of idiomas; track idioma.codigo) {
+        <button
+          class="w-8 h-8 flex justify-center items-center rounded-full overflow-hidden text-base transition-all duration-150 ring-offset-1 ring-offset-soccer-dark"
+          [class.ring-2]="idiomaAtivo() === idioma.codigo"
+          [class.ring-soccer-green]="idiomaAtivo() === idioma.codigo"
+          [class.opacity-40]="idiomaAtivo() !== idioma.codigo"
+          (click)="definirIdioma(idioma.codigo)"
+          [attr.aria-label]="'Idioma: ' + idioma.codigo">
+          {{ idioma.bandeira }}
+        </button>
+      }
+    </div>
+  </header>
+
+  <!-- Área de conteúdo -->
+  <main class="flex-1 overflow-y-auto">
+    <router-outlet />
+  </main>
+
+  <!-- Barra de navegação inferior -->
+  <nav class="shrink-0 border-t border-slate-800 bg-soccer-card p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+    <div class="flex items-center justify-around">
+
+      <a routerLink="/tabs/home" routerLinkActive #rlaHome="routerLinkActive"
+         [class]="rlaHome.isActive
+           ? 'flex flex-col items-center justify-center gap-1 px-4 py-1 text-soccer-green'
+           : 'flex flex-col items-center justify-center gap-1 px-4 py-1 text-white/40'">
+        <ion-icon name="home-outline" class="text-2xl" />
+        <span class="text-[10px] font-semibold uppercase tracking-wide">
+          {{ 'TABS.HOME' | translate }}
+        </span>
+      </a>
+
+      <a routerLink="/tabs/search" routerLinkActive #rlaSearch="routerLinkActive"
+         [class]="rlaSearch.isActive
+           ? 'flex flex-col items-center justify-center gap-1 px-4 py-1 text-soccer-green'
+           : 'flex flex-col items-center justify-center gap-1 px-4 py-1 text-white/40'">
+        <ion-icon name="search-outline" class="text-2xl" />
+        <span class="text-[10px] font-semibold uppercase tracking-wide">
+          {{ 'TABS.SEARCH' | translate }}
+        </span>
+      </a>
+
+      <a routerLink="/tabs/favorites" routerLinkActive #rlaFavorites="routerLinkActive"
+         [class]="rlaFavorites.isActive
+           ? 'flex flex-col items-center justify-center gap-1 px-4 py-1 text-soccer-green'
+           : 'flex flex-col items-center justify-center gap-1 px-4 py-1 text-white/40'">
+        <ion-icon name="heart-outline" class="text-2xl" />
+        <span class="text-[10px] font-semibold uppercase tracking-wide">
+          {{ 'TABS.FAVORITES' | translate }}
+        </span>
+      </a>
+
+      <a routerLink="/tabs/admin" routerLinkActive #rlaAdmin="routerLinkActive"
+         [class]="rlaAdmin.isActive
+           ? 'flex flex-col items-center justify-center gap-1 px-4 py-1 text-soccer-green'
+           : 'flex flex-col items-center justify-center gap-1 px-4 py-1 text-white/40'">
+        <ion-icon name="settings-outline" class="text-2xl" />
+        <span class="text-[10px] font-semibold uppercase tracking-wide">
+          {{ 'TABS.ADMIN' | translate }}
+        </span>
+      </a>
+
+    </div>
+  </nav>
+
+</div>

@@ -1,0 +1,75 @@
+{
+  "APP": {
+    "NAME": "TalentFC"
+  },
+  "TABS": {
+    "INSIGHTS": "Home",
+    "BUSCA": "Search",
+    "FAVORITOS": "Favorites",
+    "MERCADO": "Market",
+    "HOME": "Home",
+    "SEARCH": "Search",
+    "FAVORITES": "Favorites",
+    "ADMIN": "Admin"
+  },
+  "INSIGHTS": {
+    "TITLE": "Insights Panel",
+    "WONDERKIDS": "Top Wonderkids",
+    "HIDDEN_GEMS": "Hidden Gems",
+    "VETERANS": "Veterans",
+    "CONTRACTS": "Expiring Contracts"
+  },
+  "BUSCA": {
+    "TITLE": "Search Players",
+    "PLACEHOLDER": "Player name..."
+  },
+  "FAVORITOS": {
+    "TITLE": "My Favorites",
+    "EMPTY": "No players added yet."
+  },
+  "MERCADO": {
+    "TITLE": "Market",
+    "BUDGET": "Budget Calculator",
+    "LOOKALIKE": "Style Lookalikes"
+  },
+  "HOME": {
+    "TITLE": "Insights Panel",
+    "WONDERKIDS": "Top Wonderkids",
+    "HIDDEN_GEMS": "Hidden Gems",
+    "VETERANS": "Veterans"
+  },
+  "SEARCH": {
+    "TITLE": "Search Players",
+    "PLACEHOLDER": "Search for a player or legend...",
+    "NOVO_X": "The New X",
+    "ZIDANE_MODO": "'The New Zidane' Mode Activated!",
+    "ZIDANE_DESC": "Searching for statistical clones... tall midfielders with elite passing.",
+    "EMPTY": "No players found with that name.",
+    "HINT": "Type a player name or try 'Zidane' to activate the special mode."
+  },
+  "FAVORITES": {
+    "TITLE": "My Favorites",
+    "EMPTY": "No players added yet."
+  },
+  "ADMIN": {
+    "TITLE": "Admin Panel",
+    "VERSION": "Game Version",
+    "LOGIN_TITLE": "Restricted Access",
+    "LOGIN_SUBTITLE": "TalentFC control panel",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "ACCESS_BUTTON": "Enter Panel",
+    "DASHBOARD_TITLE": "Control Panel",
+    "LOGOUT": "Logout",
+    "ACTIVE_CYCLE": "Active Data Cycle",
+    "ACTIVE_CYCLE_DESC": "Select the game version to guide the overnight Scraper.",
+    "UPDATE_SCRAPER": "Update Scraper"
+  },
+  "JOGADOR": {
+    "OVR": "OVR",
+    "POT": "POT",
+    "IDADE": "Age",
+    "VALOR": "Value",
+    "FAVORITAR": "Favorite player"
+  }
+}

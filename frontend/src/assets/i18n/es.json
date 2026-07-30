@@ -1,0 +1,75 @@
+{
+  "APP": {
+    "NAME": "TalentFC"
+  },
+  "TABS": {
+    "INSIGHTS": "Inicio",
+    "BUSCA": "Buscar",
+    "FAVORITOS": "Favoritos",
+    "MERCADO": "Mercado",
+    "HOME": "Inicio",
+    "SEARCH": "Buscar",
+    "FAVORITES": "Favoritos",
+    "ADMIN": "Admin"
+  },
+  "INSIGHTS": {
+    "TITLE": "Panel de Insights",
+    "WONDERKIDS": "Top Promesas",
+    "HIDDEN_GEMS": "Joyas Ocultas",
+    "VETERANS": "Veteranos",
+    "CONTRACTS": "Contratos por Vencer"
+  },
+  "BUSCA": {
+    "TITLE": "Buscar Jugadores",
+    "PLACEHOLDER": "Nombre del jugador..."
+  },
+  "FAVORITOS": {
+    "TITLE": "Mis Favoritos",
+    "EMPTY": "Ningún jugador guardado aún."
+  },
+  "MERCADO": {
+    "TITLE": "Mercado",
+    "BUDGET": "Calculadora de Presupuesto",
+    "LOOKALIKE": "Similares de Estilo"
+  },
+  "HOME": {
+    "TITLE": "Panel de Insights",
+    "WONDERKIDS": "Top Promesas",
+    "HIDDEN_GEMS": "Joyas Ocultas",
+    "VETERANS": "Veteranos"
+  },
+  "SEARCH": {
+    "TITLE": "Buscar Jugadores",
+    "PLACEHOLDER": "Buscar jugador o leyenda...",
+    "NOVO_X": "El Nuevo X",
+    "ZIDANE_MODO": "¡Modo 'El Nuevo Zidane' Activado!",
+    "ZIDANE_DESC": "Buscando clones estadísticos... mediocampistas altos con pase de élite.",
+    "EMPTY": "Ningún jugador encontrado con ese nombre.",
+    "HINT": "Escribe el nombre de un jugador o prueba 'Zidane' para activar el modo especial."
+  },
+  "FAVORITES": {
+    "TITLE": "Mis Favoritos",
+    "EMPTY": "Ningún jugador guardado aún."
+  },
+  "ADMIN": {
+    "TITLE": "Panel Administrativo",
+    "VERSION": "Versión del Juego",
+    "LOGIN_TITLE": "Acceso Restringido",
+    "LOGIN_SUBTITLE": "Panel de control de TalentFC",
+    "EMAIL": "Correo",
+    "PASSWORD": "Contraseña",
+    "ACCESS_BUTTON": "Ingresar al Panel",
+    "DASHBOARD_TITLE": "Panel de Control",
+    "LOGOUT": "Salir",
+    "ACTIVE_CYCLE": "Ciclo de Datos Activo",
+    "ACTIVE_CYCLE_DESC": "Seleccione la versión del juego para orientar el Scraper nocturno.",
+    "UPDATE_SCRAPER": "Actualizar Scraper"
+  },
+  "JOGADOR": {
+    "OVR": "OVR",
+    "POT": "POT",
+    "IDADE": "Edad",
+    "VALOR": "Valor",
+    "FAVORITAR": "Marcar jugador"
+  }
+}

@@ -1,0 +1,124 @@
+<main class="pb-24 bg-soccer-dark min-h-screen">
+
+  <!-- Barra de pesquisa fixada no topo -->
+  <div class="sticky top-0 z-10 bg-soccer-dark/95 backdrop-blur-sm px-4 pt-4 pb-3 border-b border-slate-800">
+    <div class="flex items-center gap-3 bg-soccer-card rounded-2xl px-4 py-3 border border-slate-700/50">
+      <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M16.65 10a6.65 6.65 0 11-13.3 0 6.65 6.65 0 0113.3 0z"/>
+      </svg>
+      <input
+        type="search"
+        autocomplete="off"
+        [ngModel]="playerService.searchQuery()"
+        (ngModelChange)="playerService.searchQuery.set($event)"
+        [placeholder]="'SEARCH.PLACEHOLDER' | translate"
+        class="flex-1 bg-transparent text-sm text-slate-100 placeholder-slate-500 outline-none"
+      />
+      @if (playerService.searchQuery()) {
+        <button
+          (click)="playerService.searchQuery.set('')"
+          class="text-slate-500 hover:text-slate-300 transition-colors"
+          aria-label="Limpar busca"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="px-4 pt-4">
+
+    <!-- Banner Modo Zidane -->
+    @if (playerService.modoZidane()) {
+      <div class="mb-4 flex items-start gap-3 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl px-4 py-3">
+        <span class="text-xl leading-none mt-0.5">⚡</span>
+        <div>
+          <p class="text-soccer-green font-bold text-sm">{{ 'SEARCH.ZIDANE_MODO' | translate }}</p>
+          <p class="text-emerald-400/70 text-xs mt-0.5">{{ 'SEARCH.ZIDANE_DESC' | translate }}</p>
+        </div>
+      </div>
+    }
+
+    <!-- Lista de Resultados -->
+    @if (playerService.searchQuery()) {
+      @if (playerService.searchResults().length === 0) {
+        <div class="flex flex-col items-center justify-center py-16 text-center">
+          <span class="text-4xl mb-3">🔍</span>
+          <p class="text-slate-400 text-sm">{{ 'SEARCH.EMPTY' | translate }}</p>
+        </div>
+      } @else {
+        @for (jogador of playerService.searchResults(); track jogador.id) {
+          <div class="bg-soccer-card border border-slate-700/50 rounded-2xl p-3 flex items-center gap-3 mb-3 relative">
+
+            <!-- Badge matchPercentage -->
+            @if (jogador.matchPercentage) {
+              <span class="absolute top-2 right-2 bg-soccer-green/20 border border-soccer-green/30 text-soccer-green text-[10px] font-bold rounded-full px-2 py-0.5">
+                {{ jogador.matchPercentage }}% match
+              </span>
+            }
+
+            <!-- Avatar do atleta -->
+            <div class="w-14 h-14 flex-shrink-0 bg-slate-800 rounded-full border-2 border-slate-700 flex justify-center items-center overflow-hidden relative">
+              <span class="absolute text-soccer-green font-bold text-sm select-none">{{ jogador.nome.slice(0, 2) }}</span>
+              <img
+                [src]="jogador.fotoUrl"
+                [alt]="jogador.nome"
+                (error)="limparFoto($event)"
+                class="w-full h-full object-cover relative z-10"
+              />
+            </div>
+
+            <!-- Informações centrais -->
+            <div class="flex-1 min-w-0" [class.pr-16]="jogador.matchPercentage">
+              <p class="font-bold text-sm text-slate-100 truncate">{{ jogador.nome }}</p>
+              <div class="flex items-center gap-2 text-[11px] text-slate-400 mt-0.5">
+                <span class="bg-slate-900 px-1.5 py-0.5 rounded font-bold text-slate-300">{{ jogador.posicao }}</span>
+                <span class="text-base leading-none">{{ jogador.nacionalidade }}</span>
+                <span>{{ jogador.idade }} {{ 'JOGADOR.IDADE' | translate }}</span>
+              </div>
+              <p class="text-soccer-green font-bold text-[13px] mt-0.5">{{ jogador.valorMercado }}</p>
+            </div>
+
+            <!-- Badges OVR / POT -->
+            <div class="flex flex-col gap-1.5 shrink-0" [class.mb-4]="jogador.matchPercentage">
+              <div class="flex flex-col items-center justify-center bg-slate-900/60 border border-slate-700/50 rounded-xl px-2.5 py-1 min-w-[40px]">
+                <span class="text-slate-400 text-[9px] font-bold uppercase tracking-wide leading-none">
+                  {{ 'JOGADOR.OVR' | translate }}
+                </span>
+                <span class="text-slate-100 text-sm font-extrabold leading-snug">{{ jogador.overall }}</span>
+              </div>
+              <div class="flex flex-col items-center justify-center bg-emerald-500/10 border border-emerald-500/20 rounded-xl px-2.5 py-1 min-w-[40px]">
+                <span class="text-soccer-green/60 text-[9px] font-bold uppercase tracking-wide leading-none">
+                  {{ 'JOGADOR.POT' | translate }}
+                </span>
+                <span class="text-soccer-green text-sm font-extrabold leading-snug">{{ jogador.potencial }}</span>
+              </div>
+            </div>
+
+            <!-- Botão Favoritar -->
+            <button
+              (click)="favoritoService.toggleFavorito(jogador.id)"
+              class="shrink-0 p-1"
+              [attr.aria-label]="'JOGADOR.FAVORITAR' | translate">
+              <ion-icon
+                [name]="favoritoService.isFavorito(jogador.id) ? 'heart' : 'heart-outline'"
+                [class]="favoritoService.isFavorito(jogador.id) ? 'text-xl text-rose-500' : 'text-xl text-slate-500'">
+              </ion-icon>
+            </button>
+
+          </div>
+        }
+      }
+    } @else {
+      <!-- Estado inicial -->
+      <div class="flex flex-col items-center justify-center py-20 text-center">
+        <span class="text-5xl mb-4">⚽</span>
+        <p class="text-slate-400 text-sm max-w-xs">{{ 'SEARCH.HINT' | translate }}</p>
+      </div>
+    }
+
+  </div>
+</main>
+

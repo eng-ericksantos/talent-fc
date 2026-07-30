@@ -1,0 +1,49 @@
+<ion-header class="shell-header">
+  <ion-toolbar>
+    <div class="flex items-center justify-between h-full px-4">
+      <!-- Logo -->
+      <div class="flex items-center">
+        <span class="font-extrabold text-2xl tracking-tight">
+          <span class="text-soccer-green">Talent</span><span class="text-white">FC</span>
+        </span>
+      </div>
+
+      <!-- Language selector (mock) -->
+      <div class="flex items-center gap-1">
+        @for (lang of languages; track lang.code) {
+          <button
+            class="lang-btn"
+            [class.lang-active]="selectedLang() === lang.code"
+            (click)="setLanguage(lang.code)"
+            [attr.aria-label]="'Select language: ' + lang.code">
+            {{ lang.flag }}
+          </button>
+        }
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="insights" href="/tabs/insights">
+      <ion-icon name="home-outline" />
+      <ion-label>{{ 'TABS.INSIGHTS' | translate }}</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="busca" href="/tabs/busca">
+      <ion-icon name="search-outline" />
+      <ion-label>{{ 'TABS.BUSCA' | translate }}</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="favoritos" href="/tabs/favoritos">
+      <ion-icon name="heart-outline" />
+      <ion-label>{{ 'TABS.FAVORITOS' | translate }}</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="mercado" href="/tabs/mercado">
+      <ion-icon name="trending-up-outline" />
+      <ion-label>{{ 'TABS.MERCADO' | translate }}</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

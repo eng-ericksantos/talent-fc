@@ -1,0 +1,40 @@
+.shell-header {
+  ion-toolbar {
+    --background: #0f172a;
+    --border-color: #1e293b;
+    --min-height: 56px;
+    --padding-start: 0;
+    --padding-end: 0;
+  }
+}
+
+.lang-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  background: transparent;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+
+  &.lang-active {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.12);
+  }
+}
+
+ion-tab-bar {
+  --background: #0f172a;
+  --border: 1px solid #1e293b;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+ion-tab-button {
+  --color: #64748b;
+  --color-selected: #10b981;
+}
+

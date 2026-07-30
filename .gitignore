@@ -1,0 +1,48 @@
+# ── Node ─────────────────────────────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp
+.pnp.js
+
+# ── Ambiente ──────────────────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── NestJS / Backend ──────────────────────────────────────────────────────────
+backend-api/dist/
+backend-api/coverage/
+
+# ── Angular / Frontend ────────────────────────────────────────────────────────
+frontend/dist/
+frontend/www/
+frontend/.angular/
+frontend/coverage/
+
+# ── Ionic / Capacitor ─────────────────────────────────────────────────────────
+frontend/android/
+frontend/ios/
+frontend/.capacitor/
+
+# ── Docker ────────────────────────────────────────────────────────────────────
+mongo_data/
+**/docker-volumes/
+
+# ── VS Code ───────────────────────────────────────────────────────────────────
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+
+# ── Sistema Operacional ───────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ── Logs e temporários ────────────────────────────────────────────────────────
+*.log
+*.tmp
+*.swp
+*.swo
