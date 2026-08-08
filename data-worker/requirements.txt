@@ -1,0 +1,6 @@
+pymongo==4.7.3
+numpy==1.26.4
+pandas==2.2.2
+python-dotenv==1.0.1
+fastapi==0.111.1
+uvicorn==0.30.1

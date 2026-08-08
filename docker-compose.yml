@@ -34,6 +34,40 @@ services:
     networks:
       - talentfc_net
 
+  # Microsserviço Python — servidor FastAPI persistente
+  data-worker:
+    build:
+      context: ./data-worker
+      dockerfile: Dockerfile
+    container_name: talentfc_data_worker
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGODB_URI=mongodb://talentfc_mongo:27017
+      - MONGODB_DB=talentfc
+      - MONGODB_COLECAO=jogadores
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - talentfc_net
+
+  # Perfil "perf" — não sobe junto com docker compose up padrão
+  k6:
+    image: grafana/k6:latest
+    container_name: talentfc_k6
+    profiles: ["perf"]
+    volumes:
+      - ./performance-tests:/scripts
+    environment:
+      - BASE_URL=http://talentfc_api:3000
+    command: run /scripts/load-test.js
+    depends_on:
+      - api
+    networks:
+      - talentfc_net
+
 volumes:
   mongo_data:
     driver: local

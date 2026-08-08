@@ -63,7 +63,8 @@
     "LOGOUT": "Salir",
     "ACTIVE_CYCLE": "Ciclo de Datos Activo",
     "ACTIVE_CYCLE_DESC": "Seleccione la versión del juego para orientar el Scraper nocturno.",
-    "UPDATE_SCRAPER": "Actualizar Scraper"
+    "UPDATE_SCRAPER": "Actualizar Scraper",
+    "SYNCING": "Sincronizando Datos..."
   },
   "JOGADOR": {
     "OVR": "OVR",

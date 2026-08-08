@@ -1,4 +1,5 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseInterceptors } from '@nestjs/common';
+import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CategoriaJogador } from './player.schema';
 import { PlayersService } from './players.service';
@@ -29,6 +30,8 @@ export class PlayersController {
   }
 
   @Get('categoria/:categoria')
+  @UseInterceptors(CacheInterceptor)
+  @CacheTTL(60_000)
   @ApiOperation({
     summary: 'Listar por categoria',
     description:

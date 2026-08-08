@@ -18,6 +18,7 @@ export class HomePage {
 
   constructor() {
     addIcons({ heart, heartOutline });
+    this.playerService.loadPlayers();
   }
 
   limparFoto(evento: Event): void {

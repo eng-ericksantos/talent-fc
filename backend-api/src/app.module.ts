@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AdminModule } from './admin/admin.module';
 import { PlayersModule } from './players/players.module';
 
 @Module({
@@ -14,9 +15,14 @@ import { PlayersModule } from './players/players.module';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         uri: configService.get<string>('MONGODB_URI'),
+        maxPoolSize: 100,
+        minPoolSize: 10,
+        socketTimeoutMS: 45000,
+        serverSelectionTimeoutMS: 5000,
       }),
     }),
     PlayersModule,
+    AdminModule,
   ],
 })
 export class AppModule {}

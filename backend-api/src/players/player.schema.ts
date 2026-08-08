@@ -16,10 +16,10 @@ export class Jogador {
   @Prop({ required: true })
   overall: number;
 
-  @Prop({ required: true })
+  @Prop({ required: true, index: true })
   potencial: number;
 
-  @Prop({ required: true })
+  @Prop({ required: true, index: true })
   posicao: string;
 
   @Prop({ required: true })
@@ -41,5 +41,5 @@ export class Jogador {
 export const JogadorSchema = SchemaFactory.createForClass(Jogador);
 
 JogadorSchema.index({ nome: 'text', nacionalidade: 'text', posicao: 'text' });
-JogadorSchema.index({ categoria: 1 });
-JogadorSchema.index({ overall: -1 });
+JogadorSchema.index({ categoria: 1, overall: -1 });  // índice composto para findByCategory
+JogadorSchema.index({ potencial: -1 });

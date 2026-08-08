@@ -5,7 +5,7 @@ const CHAVE_FAVORITOS = 'favoriteIds';
 
 @Injectable({ providedIn: 'root' })
 export class FavoriteService {
-  readonly favoritosIds = signal<number[]>([]);
+  readonly favoritosIds = signal<string[]>([]);
 
   constructor() {
     this.carregarFavoritos();
@@ -17,15 +17,15 @@ export class FavoriteService {
   private async carregarFavoritos(): Promise<void> {
     const { value } = await Preferences.get({ key: CHAVE_FAVORITOS });
     if (value) {
-      this.favoritosIds.set(JSON.parse(value) as number[]);
+      this.favoritosIds.set(JSON.parse(value) as string[]);
     }
   }
 
-  private async salvarFavoritos(ids: number[]): Promise<void> {
+  private async salvarFavoritos(ids: string[]): Promise<void> {
     await Preferences.set({ key: CHAVE_FAVORITOS, value: JSON.stringify(ids) });
   }
 
-  toggleFavorito(id: number): void {
+  toggleFavorito(id: string): void {
     const atual = this.favoritosIds();
     if (atual.includes(id)) {
       this.favoritosIds.set(atual.filter((itemId) => itemId !== id));
@@ -34,7 +34,7 @@ export class FavoriteService {
     }
   }
 
-  isFavorito(id: number): boolean {
+  isFavorito(id: string): boolean {
     return this.favoritosIds().includes(id);
   }
 }

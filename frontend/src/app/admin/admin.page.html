@@ -70,9 +70,12 @@
 
       <button
         (click)="atualizarScraper()"
+        [disabled]="isSyncing()"
         class="w-full bg-soccer-green/10 text-soccer-green border border-soccer-green/30 font-semibold py-3 rounded-xl text-sm tracking-wide hover:bg-soccer-green/20 transition-colors"
+        [class.opacity-50]="isSyncing()"
+        [class.cursor-not-allowed]="isSyncing()"
       >
-        {{ 'ADMIN.UPDATE_SCRAPER' | translate }}
+        {{ isSyncing() ? ('ADMIN.SYNCING' | translate) : ('ADMIN.UPDATE_SCRAPER' | translate) }}
       </button>
     </section>
   </div>
