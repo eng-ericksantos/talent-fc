@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { IonIcon } from '@ionic/angular/standalone';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -11,7 +12,7 @@ import { PlayerService } from '../services/player.service';
   selector: 'app-search',
   templateUrl: 'search.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslatePipe, FormsModule, IonIcon],
+  imports: [TranslatePipe, FormsModule, IonIcon, RouterLink],
 })
 export class SearchPage {
   readonly playerService = inject(PlayerService);

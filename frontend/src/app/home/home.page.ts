@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { IonIcon } from '@ionic/angular/standalone';
 import { TranslatePipe } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
@@ -10,7 +11,7 @@ import { PlayerService } from '../services/player.service';
   selector: 'app-home',
   templateUrl: 'home.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslatePipe, IonIcon],
+  imports: [TranslatePipe, IonIcon, RouterLink],
 })
 export class HomePage {
   readonly playerService = inject(PlayerService);

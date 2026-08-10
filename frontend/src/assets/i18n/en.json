@@ -1,4 +1,8 @@
 {
+  "COMMON": {
+    "LOAD_MORE": "Load More",
+    "BACK": "Back"
+  },
   "APP": {
     "NAME": "TalentFC"
   },
@@ -72,5 +76,19 @@
     "IDADE": "Age",
     "VALOR": "Value",
     "FAVORITAR": "Favorite player"
+  },
+  "DETALHE": {
+    "ATRIBUTOS": "Technical Attributes",
+    "ATTR_VISAO": "Vision",
+    "ATTR_PASSE": "Short Pass",
+    "ATTR_CONTROLE": "Ball Control",
+    "ATTR_DRIBLE": "Dribbling",
+    "ATTR_COMPOSTURA": "Composure",
+    "ATTR_AGILIDADE": "Agility",
+    "MATCH_TITULO": "Style Match",
+    "MATCH_DESC": "Similar to Zidane",
+    "FAVORITAR": "Favorite",
+    "FAVORITADO": "Favorited",
+    "NAO_ENCONTRADO": "Player not found"
   }
 }

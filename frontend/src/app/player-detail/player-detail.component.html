@@ -1,0 +1,127 @@
+@if (jogador(); as j) {
+  <div class="bg-soccer-dark min-h-screen pb-24">
+
+    <!-- Hero Section -->
+    <div class="bg-soccer-card border-b border-slate-700/50 px-4 pt-4 pb-6">
+
+      <!-- Botão Voltar -->
+      <button
+        (click)="voltar()"
+        class="inline-flex items-center gap-1.5 text-slate-400 text-sm mb-5 hover:text-slate-200 transition-colors">
+        <ion-icon name="arrow-back-outline" class="text-base" />
+        <span>{{ 'COMMON.BACK' | translate }}</span>
+      </button>
+
+      <!-- Avatar centralizado -->
+      <div class="flex flex-col items-center text-center">
+        <div class="w-32 h-32 bg-slate-800 rounded-full border-4 border-slate-800 flex justify-center items-center overflow-hidden relative mb-4">
+          <span class="absolute text-soccer-green font-bold text-2xl select-none">{{ j.nome.slice(0, 2) }}</span>
+          <img
+            [src]="j.fotoUrl"
+            [alt]="j.nome"
+            (error)="limparFoto($event)"
+            class="w-full h-full object-cover relative z-10"
+          />
+        </div>
+
+        <!-- Nome e dados principais -->
+        <h1 class="text-2xl font-extrabold text-slate-100 mb-1">{{ j.nome }}</h1>
+        <div class="flex items-center gap-2 text-sm text-slate-400 mb-4">
+          <span class="bg-slate-900/80 px-2 py-0.5 rounded font-bold text-slate-300">{{ j.posicao }}</span>
+          <span class="text-base leading-none">{{ j.nacionalidade }}</span>
+          <span>{{ j.idade }} {{ 'JOGADOR.IDADE' | translate }}</span>
+        </div>
+
+        <!-- Badges OVR / POT / Valor -->
+        <div class="flex items-center gap-3 mb-5">
+          <div class="flex flex-col items-center justify-center bg-slate-900/60 border border-slate-700/50 rounded-xl px-4 py-2 min-w-[56px]">
+            <span class="text-slate-400 text-[9px] font-bold uppercase tracking-wide leading-none">{{ 'JOGADOR.OVR' | translate }}</span>
+            <span class="text-slate-100 text-xl font-extrabold leading-snug">{{ j.overall }}</span>
+          </div>
+          <div class="flex flex-col items-center justify-center bg-emerald-500/10 border border-emerald-500/20 rounded-xl px-4 py-2 min-w-[56px]">
+            <span class="text-soccer-green/60 text-[9px] font-bold uppercase tracking-wide leading-none">{{ 'JOGADOR.POT' | translate }}</span>
+            <span class="text-soccer-green text-xl font-extrabold leading-snug">{{ j.potencial }}</span>
+          </div>
+          <div class="flex flex-col items-center justify-center bg-slate-900/60 border border-slate-700/50 rounded-xl px-4 py-2 min-w-[56px]">
+            <span class="text-slate-400 text-[9px] font-bold uppercase tracking-wide leading-none">{{ 'JOGADOR.VALOR' | translate }}</span>
+            <span class="text-slate-100 text-base font-extrabold leading-snug">{{ j.valorMercado }}</span>
+          </div>
+        </div>
+
+        <!-- Botão Favoritar -->
+        <button
+          (click)="favoritoService.toggleFavorito(j.id)"
+          class="flex items-center gap-2 px-5 py-2 rounded-xl border transition-colors"
+          [class]="favoritoService.isFavorito(j.id)
+            ? 'border-rose-500/40 bg-rose-500/10 text-rose-400'
+            : 'border-slate-700/50 bg-transparent text-slate-400 hover:bg-slate-800'"
+          [attr.aria-label]="'JOGADOR.FAVORITAR' | translate">
+          <ion-icon [name]="favoritoService.isFavorito(j.id) ? 'heart' : 'heart-outline'" class="text-lg" />
+          <span class="text-sm font-semibold">
+            {{ (favoritoService.isFavorito(j.id) ? 'DETALHE.FAVORITADO' : 'DETALHE.FAVORITAR') | translate }}
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <div class="px-4 pt-5 space-y-4">
+
+      <!-- Painel de Match do Algoritmo -->
+      @if (j.matchPercentage) {
+        <div class="flex items-start gap-3 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl px-4 py-3">
+          <ion-icon name="flash-outline" class="text-soccer-green text-xl mt-0.5 shrink-0" />
+          <div>
+            <p class="text-soccer-green font-bold text-sm">{{ 'DETALHE.MATCH_TITULO' | translate }}</p>
+            <p class="text-emerald-400/80 text-xs mt-0.5">
+              {{ j.matchPercentage }}% — {{ 'DETALHE.MATCH_DESC' | translate }}
+            </p>
+          </div>
+        </div>
+      }
+
+      <!-- Atributos Técnicos -->
+      @if (atributos().length > 0) {
+        <div class="bg-soccer-card border border-slate-700/50 rounded-2xl p-4">
+          <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">
+            {{ 'DETALHE.ATRIBUTOS' | translate }}
+          </h2>
+          <div class="space-y-3">
+            @for (atributo of atributos(); track atributo.labelKey) {
+              <div>
+                <div class="flex justify-between items-center mb-1.5">
+                  <span class="text-xs text-slate-300 font-medium">{{ atributo.labelKey | translate }}</span>
+                  <span
+                    class="text-xs font-bold"
+                    [class]="atributo.valor >= 85 ? 'text-soccer-green' : atributo.valor >= 75 ? 'text-yellow-400' : atributo.valor >= 60 ? 'text-orange-400' : 'text-red-400'">
+                    {{ atributo.valor }}
+                  </span>
+                </div>
+                <div class="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+                  <div
+                    class="h-full rounded-full transition-all duration-500"
+                    [class]="corBarra(atributo.valor)"
+                    [style.width.%]="atributo.valor">
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+    </div>
+  </div>
+
+} @else {
+  <!-- Jogador não encontrado / cache vazio -->
+  <div class="bg-soccer-dark min-h-screen flex flex-col items-center justify-center gap-4 px-4">
+    <button
+      (click)="voltar()"
+      class="inline-flex items-center gap-1.5 text-slate-400 text-sm mb-2 hover:text-slate-200 transition-colors">
+      <ion-icon name="arrow-back-outline" class="text-base" />
+      <span>{{ 'COMMON.BACK' | translate }}</span>
+    </button>
+    <span class="text-5xl">⚽</span>
+    <p class="text-slate-400 text-sm">{{ 'DETALHE.NAO_ENCONTRADO' | translate }}</p>
+  </div>
+}

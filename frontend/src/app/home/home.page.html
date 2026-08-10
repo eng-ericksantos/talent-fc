@@ -9,7 +9,7 @@
     </h2>
 
     @for (jogador of playerService.topPromessas(); track jogador.id) {
-      <div class="bg-soccer-card border border-slate-700/50 rounded-2xl p-3 flex items-center gap-3 mb-3">
+      <div [routerLink]="['/tabs/player', jogador.id]" class="bg-soccer-card border border-slate-700/50 rounded-2xl p-3 flex items-center gap-3 mb-3 cursor-pointer">
 
         <!-- Avatar do atleta -->
         <div class="w-14 h-14 flex-shrink-0 bg-slate-800 rounded-full border-2 border-slate-700 flex justify-center items-center overflow-hidden relative">
@@ -51,7 +51,7 @@
 
         <!-- Botão Favoritar -->
         <button
-          (click)="favoritoService.toggleFavorito(jogador.id)"
+          (click)="$event.stopPropagation(); favoritoService.toggleFavorito(jogador.id)"
           class="shrink-0 p-1"
           [attr.aria-label]="'JOGADOR.FAVORITAR' | translate">
           <ion-icon
@@ -61,6 +61,13 @@
         </button>
 
       </div>
+    }
+    @if (playerService.topPromessas().length < playerService.totalPromessas()) {
+      <button
+        (click)="playerService.carregarMaisPromessas()"
+        class="w-full mt-1 mb-4 py-2.5 rounded-xl text-sm text-slate-300 border border-slate-700/50 bg-transparent hover:bg-slate-800 transition-colors">
+        {{ 'COMMON.LOAD_MORE' | translate }}
+      </button>
     }
   </section>
 
@@ -71,7 +78,7 @@
     </h2>
 
     @for (jogador of playerService.joiasEscondidas(); track jogador.id) {
-      <div class="bg-soccer-card border border-slate-700/50 rounded-2xl p-3 flex items-center gap-3 mb-3">
+      <div [routerLink]="['/tabs/player', jogador.id]" class="bg-soccer-card border border-slate-700/50 rounded-2xl p-3 flex items-center gap-3 mb-3 cursor-pointer">
 
         <div class="w-14 h-14 flex-shrink-0 bg-slate-800 rounded-full border-2 border-slate-700 flex justify-center items-center overflow-hidden relative">
           <span class="absolute text-soccer-green font-bold text-sm select-none">{{ jogador.nome.slice(0, 2) }}</span>
@@ -110,7 +117,7 @@
 
         <!-- Botão Favoritar -->
         <button
-          (click)="favoritoService.toggleFavorito(jogador.id)"
+          (click)="$event.stopPropagation(); favoritoService.toggleFavorito(jogador.id)"
           class="shrink-0 p-1"
           [attr.aria-label]="'JOGADOR.FAVORITAR' | translate">
           <ion-icon
@@ -121,6 +128,13 @@
 
       </div>
     }
+    @if (playerService.joiasEscondidas().length < playerService.totalGems()) {
+      <button
+        (click)="playerService.carregarMaisGems()"
+        class="w-full mt-1 mb-4 py-2.5 rounded-xl text-sm text-slate-300 border border-slate-700/50 bg-transparent hover:bg-slate-800 transition-colors">
+        {{ 'COMMON.LOAD_MORE' | translate }}
+      </button>
+    }
   </section>
 
   <!-- Seção: Veteranos -->
@@ -130,7 +144,7 @@
     </h2>
 
     @for (jogador of playerService.veteranos(); track jogador.id) {
-      <div class="bg-soccer-card border border-slate-700/50 rounded-2xl p-3 flex items-center gap-3 mb-3">
+      <div [routerLink]="['/tabs/player', jogador.id]" class="bg-soccer-card border border-slate-700/50 rounded-2xl p-3 flex items-center gap-3 mb-3 cursor-pointer">
 
         <div class="w-14 h-14 flex-shrink-0 bg-slate-800 rounded-full border-2 border-slate-700 flex justify-center items-center overflow-hidden relative">
           <span class="absolute text-soccer-green font-bold text-sm select-none">{{ jogador.nome.slice(0, 2) }}</span>
@@ -169,7 +183,7 @@
 
         <!-- Botão Favoritar -->
         <button
-          (click)="favoritoService.toggleFavorito(jogador.id)"
+          (click)="$event.stopPropagation(); favoritoService.toggleFavorito(jogador.id)"
           class="shrink-0 p-1"
           [attr.aria-label]="'JOGADOR.FAVORITAR' | translate">
           <ion-icon
@@ -179,6 +193,13 @@
         </button>
 
       </div>
+    }
+    @if (playerService.veteranos().length < playerService.totalVeteranos()) {
+      <button
+        (click)="playerService.carregarMaisVeteranos()"
+        class="w-full mt-1 mb-4 py-2.5 rounded-xl text-sm text-slate-300 border border-slate-700/50 bg-transparent hover:bg-slate-800 transition-colors">
+        {{ 'COMMON.LOAD_MORE' | translate }}
+      </button>
     }
   </section>
 

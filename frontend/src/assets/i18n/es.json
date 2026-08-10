@@ -1,4 +1,8 @@
 {
+  "COMMON": {
+    "LOAD_MORE": "Cargar Más",
+    "BACK": "Volver"
+  },
   "APP": {
     "NAME": "TalentFC"
   },
@@ -72,5 +76,19 @@
     "IDADE": "Edad",
     "VALOR": "Valor",
     "FAVORITAR": "Marcar jugador"
+  },
+  "DETALHE": {
+    "ATRIBUTOS": "Atributos Técnicos",
+    "ATTR_VISAO": "Visión",
+    "ATTR_PASSE": "Pase Corto",
+    "ATTR_CONTROLE": "Control de Balón",
+    "ATTR_DRIBLE": "Regate",
+    "ATTR_COMPOSTURA": "Compostura",
+    "ATTR_AGILIDADE": "Agilidad",
+    "MATCH_TITULO": "Match de Estilo",
+    "MATCH_DESC": "Similar a Zidane",
+    "FAVORITAR": "Favoritar",
+    "FAVORITADO": "Favoritado",
+    "NAO_ENCONTRADO": "Jugador no encontrado"
   }
 }

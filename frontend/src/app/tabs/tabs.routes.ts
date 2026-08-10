@@ -18,6 +18,10 @@ export const routes: Routes = [
     loadComponent: () => import('../admin/admin.page').then((m) => m.AdminPage),
   },
   {
+    path: 'player/:id',
+    loadComponent: () => import('../player-detail/player-detail.component').then((m) => m.PlayerDetailComponent),
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',

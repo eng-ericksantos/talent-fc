@@ -50,7 +50,7 @@
         </div>
       } @else {
         @for (jogador of playerService.searchResults(); track jogador.id) {
-          <div class="bg-soccer-card border border-slate-700/50 rounded-2xl p-3 flex items-center gap-3 mb-3 relative">
+          <div [routerLink]="['/tabs/player', jogador.id]" class="bg-soccer-card border border-slate-700/50 rounded-2xl p-3 flex items-center gap-3 mb-3 relative cursor-pointer">
 
             <!-- Badge matchPercentage -->
             @if (jogador.matchPercentage) {
@@ -99,7 +99,7 @@
 
             <!-- Botão Favoritar -->
             <button
-              (click)="favoritoService.toggleFavorito(jogador.id)"
+              (click)="$event.stopPropagation(); favoritoService.toggleFavorito(jogador.id)"
               class="shrink-0 p-1"
               [attr.aria-label]="'JOGADOR.FAVORITAR' | translate">
               <ion-icon
@@ -110,6 +110,13 @@
 
           </div>
         }
+      }
+      @if (playerService.searchResults().length < playerService.totalBusca()) {
+        <button
+          (click)="playerService.carregarMaisBusca()"
+          class="w-full mt-2 mb-4 py-2.5 rounded-xl text-sm text-slate-300 border border-slate-700/50 bg-transparent hover:bg-slate-800 transition-colors">
+          {{ 'COMMON.LOAD_MORE' | translate }}
+        </button>
       }
     } @else {
       <!-- Estado inicial -->

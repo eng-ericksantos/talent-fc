@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from pymongo.collection import Collection
-from db_config import obter_colecao
+from db_config import obter_colecao, obter_ultimo_offset, atualizar_ultimo_offset
 from math_engine import filtrar_candidatos_zidane
+from scraper_engine import raspar_lote
 
 app = FastAPI(title="TalentFC Data Worker")
 
@@ -114,17 +115,64 @@ def _atualizar_match_percentages(colecao: Collection) -> list[dict]:
 
 @app.post("/run-scraper")
 def executar_scraper() -> dict:
-    """Executa seed + cálculo de similaridade e retorna os candidatos encontrados."""
+    """
+    Lote seguro: raspa 3 páginas do SoFIFA a partir do último offset salvo,
+    faz upsert no MongoDB e atualiza o estado de paginação.
+    """
     colecao: Collection = obter_colecao()
-    _sincronizar_seed(colecao)
-    candidatos = _atualizar_match_percentages(colecao)
 
+    # Garante que os jogadores seed existem antes do scraping
+    _sincronizar_seed(colecao)
+
+    # --- Scraping em lote ---
+    offset_inicial: int = obter_ultimo_offset()
+    jogadores_raspados, proximo_offset = raspar_lote(offset_inicial, num_paginas=3)
+
+    # Upsert de todos os jogadores raspados pelo sofifa_id
+    inseridos: int = 0
+    for jogador in jogadores_raspados:
+        sofifa_id = jogador.get("sofifa_id")
+        if not sofifa_id:
+            continue
+        colecao.update_one(
+            {"sofifa_id": sofifa_id},
+            {"$set": {**jogador, "categoria": _inferir_categoria(jogador)}},
+            upsert=True,
+        )
+        inseridos += 1
+
+    atualizar_ultimo_offset(proximo_offset)
+    print(f"[scraper] {inseridos} jogadores upsert | próximo offset: {proximo_offset}")
+
+    # --- Motor matemático sobre toda a coleção ---
+    candidatos = _atualizar_match_percentages(colecao)
     resultado = [
         {"nome": c["nome"], "posicao": c["posicao"], "matchPercentage": c["matchPercentage"]}
         for c in candidatos
     ]
     print(f"[worker] {len(candidatos)} candidato(s) processado(s).")
-    return {"candidatos": resultado, "total": len(candidatos)}
+
+    return {
+        "lote": {"offset_inicial": offset_inicial, "proximo_offset": proximo_offset, "inseridos": inseridos},
+        "candidatos": resultado,
+        "total": len(candidatos),
+    }
+
+
+def _inferir_categoria(jogador: dict) -> str:
+    """Determina categoria baseada em idade e overall sem iterar com find/next."""
+    idade: int = jogador.get("idade", 99)
+    overall: int = jogador.get("overall", 0)
+    potencial: int = jogador.get("potencial", 0)
+
+    regras: list[tuple[bool, str]] = [
+        (idade <= 21 and potencial >= 80, "wonderkid"),
+        (idade <= 27 and overall < potencial - 5, "gem"),
+        (idade >= 32 and overall >= 80, "veteran"),
+    ]
+    # filter() sobre a coleção completa de regras — nunca next()
+    categorias_ativas = [cat for condicao, cat in regras if condicao]
+    return categorias_ativas[0] if categorias_ativas else "gem"
 
 
 def main() -> None:

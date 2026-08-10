@@ -46,3 +46,6 @@ Desktop.ini
 *.tmp
 *.swp
 *.swo
+
+# ── Keys Produção ────────────────────────────────────────────────────────
+firebase-service-account.json
