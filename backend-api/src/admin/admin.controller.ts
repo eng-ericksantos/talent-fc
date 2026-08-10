@@ -1,6 +1,7 @@
-import { Controller, Post } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Controller, Post, UseGuards } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { AdminService } from './admin.service';
+import { FirebaseAuthGuard } from './firebase-auth.guard';
 
 @ApiTags('Admin')
 @Controller('admin')
@@ -8,6 +9,8 @@ export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
   @Post('trigger-worker')
+  @UseGuards(FirebaseAuthGuard)
+  @ApiSecurity('bearer')
   @ApiOperation({
     summary: 'Acionar motor de dados',
     description:

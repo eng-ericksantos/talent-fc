@@ -4,7 +4,16 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as admin from 'firebase-admin';
+import * as path from 'path';
 import { AppModule } from './app.module';
+
+admin.initializeApp({
+  credential: admin.credential.cert(
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    require(path.join(__dirname, '..', 'firebase-service-account.json')),
+  ),
+});
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(

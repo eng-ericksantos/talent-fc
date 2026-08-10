@@ -59,15 +59,17 @@
         </span>
       </a>
 
-      <a routerLink="/tabs/admin" routerLinkActive #rlaAdmin="routerLinkActive"
-         [class]="rlaAdmin.isActive
-           ? 'flex flex-col items-center justify-center gap-1 px-4 py-1 text-soccer-green'
-           : 'flex flex-col items-center justify-center gap-1 px-4 py-1 text-white/40'">
-        <ion-icon name="settings-outline" class="text-2xl" />
-        <span class="text-[10px] font-semibold uppercase tracking-wide">
-          {{ 'TABS.ADMIN' | translate }}
-        </span>
-      </a>
+      @if (usuarioAutenticado()) {
+        <a routerLink="/tabs/admin" routerLinkActive #rlaAdmin="routerLinkActive"
+           [class]="rlaAdmin.isActive
+             ? 'flex flex-col items-center justify-center gap-1 px-4 py-1 text-soccer-green'
+             : 'flex flex-col items-center justify-center gap-1 px-4 py-1 text-white/40'">
+          <ion-icon name="settings-outline" class="text-2xl" />
+          <span class="text-[10px] font-semibold uppercase tracking-wide">
+            {{ 'TABS.ADMIN' | translate }}
+          </span>
+        </a>
+      }
 
     </div>
   </nav>

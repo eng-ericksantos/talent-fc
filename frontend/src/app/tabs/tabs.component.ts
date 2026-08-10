@@ -4,6 +4,8 @@ import { IonIcon } from '@ionic/angular/standalone';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { heartOutline, homeOutline, searchOutline, settingsOutline } from 'ionicons/icons';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Auth, authState } from '@angular/fire/auth';
 
 export type AppLanguage = 'pt' | 'en' | 'es';
 
@@ -17,6 +19,7 @@ export class TabsComponent {
   private readonly traducao = inject(TranslateService);
 
   readonly idiomaAtivo = signal<AppLanguage>('pt');
+  readonly usuarioAutenticado = toSignal(authState(inject(Auth)));
 
   readonly idiomas: { codigo: AppLanguage; bandeira: string }[] = [
     { codigo: 'pt', bandeira: '🇧🇷' },

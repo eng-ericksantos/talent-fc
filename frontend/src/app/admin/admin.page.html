@@ -11,6 +11,7 @@
           <label class="text-slate-400 text-xs uppercase tracking-wider">{{ 'ADMIN.EMAIL' | translate }}</label>
           <input
             type="email"
+            [(ngModel)]="email"
             class="w-full bg-slate-900 border border-slate-700/50 rounded-xl px-4 py-3 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-soccer-green/50 transition-colors"
             placeholder="admin@talentfc.app"
           />
@@ -20,10 +21,15 @@
           <label class="text-slate-400 text-xs uppercase tracking-wider">{{ 'ADMIN.PASSWORD' | translate }}</label>
           <input
             type="password"
+            [(ngModel)]="senha"
             class="w-full bg-slate-900 border border-slate-700/50 rounded-xl px-4 py-3 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-soccer-green/50 transition-colors"
             placeholder="••••••••"
           />
         </div>
+
+        @if (erroLogin()) {
+          <p class="text-red-400 text-xs text-center">{{ erroLogin() | translate }}</p>
+        }
 
         <button
           (click)="login()"

@@ -1,8 +1,10 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, computed, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
-import { catchError, finalize, of } from 'rxjs';
+import { catchError, finalize, from, of } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Auth, authState, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { environment } from '../../environments/environment';
 
 @Component({
@@ -13,17 +15,30 @@ import { environment } from '../../environments/environment';
 })
 export class AdminPage {
   readonly #http = inject(HttpClient);
+  readonly #auth = inject(Auth);
 
-  isLoggedIn = signal<boolean>(false);
-  activeVersion = signal<number>(26);
-  isSyncing = signal<boolean>(false);
+  private readonly usuarioAtual = toSignal(authState(this.#auth));
+  readonly isLoggedIn = computed(() => !!this.usuarioAtual());
+
+  readonly activeVersion = signal<number>(26);
+  readonly isSyncing = signal<boolean>(false);
+  readonly erroLogin = signal<string>('');
+
+  email = '';
+  senha = '';
 
   login(): void {
-    this.isLoggedIn.set(true);
+    this.erroLogin.set('');
+    from(signInWithEmailAndPassword(this.#auth, this.email, this.senha)).pipe(
+      catchError(() => {
+        this.erroLogin.set('ADMIN.LOGIN_ERROR');
+        return of(null);
+      }),
+    ).subscribe();
   }
 
   logout(): void {
-    this.isLoggedIn.set(false);
+    from(signOut(this.#auth)).subscribe();
   }
 
   atualizarScraper(): void {
