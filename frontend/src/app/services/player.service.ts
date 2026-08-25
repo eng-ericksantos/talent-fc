@@ -91,7 +91,7 @@ export class PlayerService {
   readonly todosJogadores = this.#jogadores.asReadonly();
 
   readonly searchResults = computed((): Jogador[] => {
-    if (this.modoZidane()) return CLONES_ZIDANE;
+    if (this.modoZidane()) return CLONES_ZIDANE.map((j) => this.#comFotoProxy(j));
     return this.#resultadosBusca();
   });
 
@@ -159,11 +159,22 @@ export class PlayerService {
       .subscribe((resp) => {
         if (!resp) return;
         totalSignal.set(resp.total);
-        // Deduplicação imutável por id — filter() sobre a coleção completa
+        // Normaliza _id do MongoDB para id e reescreve fotoUrl via proxy antes da deduplicação
+        const normalizados = resp.data.map((j) =>
+          this.#comFotoProxy({ ...j, id: j.id ?? j._id ?? '' })
+        );
         const idsExistentes = new Set(this.#jogadores().map((j) => j.id));
-        const novos = resp.data.filter((j) => !idsExistentes.has(j.id));
+        const novos = normalizados.filter((j) => !idsExistentes.has(j.id));
         this.#jogadores.set([...this.#jogadores(), ...novos]);
       });
+  }
+
+  // Reescreve a fotoUrl para passar pelo proxy do backend, contornando o bloqueio de hotlinking do CDN
+  #comFotoProxy(jogador: Jogador): Jogador {
+    return {
+      ...jogador,
+      fotoUrl: `${environment.apiUrl}/players/proxy-image?url=${encodeURIComponent(jogador.fotoUrl)}`,
+    };
   }
 
   #carregarBusca(query: string, pagina: number): void {
@@ -180,10 +191,13 @@ export class PlayerService {
       .subscribe((resp) => {
         if (!resp) return;
         this.totalBusca.set(resp.total);
+        const normalizados = resp.data.map((j) =>
+          this.#comFotoProxy({ ...j, id: j.id ?? j._id ?? '' })
+        );
         if (pagina === 1) {
-          this.#resultadosBusca.set(resp.data);
+          this.#resultadosBusca.set(normalizados);
         } else {
-          this.#resultadosBusca.set([...this.#resultadosBusca(), ...resp.data]);
+          this.#resultadosBusca.set([...this.#resultadosBusca(), ...normalizados]);
         }
       });
   }

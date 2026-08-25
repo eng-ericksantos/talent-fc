@@ -4,7 +4,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import * as admin from 'firebase-admin';
+import { getAuth } from 'firebase-admin/auth';
 
 @Injectable()
 export class FirebaseAuthGuard implements CanActivate {
@@ -19,7 +19,7 @@ export class FirebaseAuthGuard implements CanActivate {
     const token = cabecalhoAuth.substring(7);
 
     try {
-      const tokenDecodificado = await admin.auth().verifyIdToken(token);
+      const tokenDecodificado = await getAuth().verifyIdToken(token);
       requisicao.usuario = tokenDecodificado;
       return true;
     } catch {

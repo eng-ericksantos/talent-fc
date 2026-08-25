@@ -7,6 +7,8 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
+    volumes:
+      - ./backend-api/firebase-service-account.json:/app/firebase-service-account.json
     environment:
       - NODE_ENV=production
       - MONGODB_URI=mongodb://mongo:27017/talentfc

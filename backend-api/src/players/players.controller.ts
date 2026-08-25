@@ -1,13 +1,42 @@
-import { Controller, Get, Param, ParseIntPipe, Query, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus, Logger, Param, Query, Res, UseInterceptors } from '@nestjs/common';
 import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import type { FastifyReply } from 'fastify';
 import { CategoriaJogador } from './player.schema';
 import { PlayersService } from './players.service';
 
 @ApiTags('Players')
 @Controller('players')
 export class PlayersController {
+  private readonly logger = new Logger(PlayersController.name);
+
   constructor(private readonly playersService: PlayersService) {}
+
+  @Get('proxy-image')
+  @ApiOperation({
+    summary: 'Proxy de imagens do CDN externo',
+    description:
+      'Repassa a requisição da foto do jogador forjando Referer/User-Agent para ' +
+      'contornar a proteção de hotlinking do CDN de origem.',
+  })
+  @ApiQuery({ name: 'url', required: true, description: 'URL original da imagem no CDN' })
+  @ApiResponse({ status: 200, description: 'Binário da imagem com Content-Type original.' })
+  async proxyImagem(@Query('url') url: string, @Res() res: FastifyReply): Promise<void> {
+    // @Res() assume o controle total da resposta — filtros de exceção do Nest não entram em ação aqui
+    try {
+      const { buffer, contentType } = await this.playersService.buscarImagemProxy(url);
+      res
+        .header('Content-Type', contentType)
+        .header('Cache-Control', 'public, max-age=86400')
+        .code(200)
+        .send(buffer);
+    } catch (erro) {
+      const status = erro instanceof HttpException ? erro.getStatus() : HttpStatus.BAD_GATEWAY;
+      const mensagem = erro instanceof Error ? erro.message : 'Erro desconhecido no proxy de imagem.';
+      this.logger.error(`Falha ao servir proxy-image (url=${url}): ${mensagem}`);
+      res.code(status).send({ statusCode: status, message: mensagem });
+    }
+  }
 
   @Get()
   @ApiOperation({

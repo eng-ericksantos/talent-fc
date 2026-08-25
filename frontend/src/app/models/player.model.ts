@@ -8,6 +8,7 @@ export interface AtributosJogador {
 }
 
 export interface Jogador {
+  _id?: string;
   id: string;
   nome: string;
   idade: number;
