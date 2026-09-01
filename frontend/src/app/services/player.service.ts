@@ -4,48 +4,6 @@ import { catchError, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Jogador, RespostaPaginada } from '../models/player.model';
 
-const CLONES_ZIDANE: Jogador[] = [
-  {
-    id: '101',
-    nome: 'Enzo Le Fée',
-    idade: 24,
-    overall: 78,
-    potencial: 86,
-    posicao: 'CM',
-    nacionalidade: '🇫🇷',
-    valorMercado: '€30M',
-    fotoUrl: 'https://cdn.sofifa.net/players/266139/25_240.png',
-    categoria: 'gem',
-    matchPercentage: 91,
-  },
-  {
-    id: '102',
-    nome: 'Hannibal Mejbri',
-    idade: 22,
-    overall: 76,
-    potencial: 85,
-    posicao: 'CM',
-    nacionalidade: '🇹🇳',
-    valorMercado: '€18M',
-    fotoUrl: 'https://cdn.sofifa.net/players/268917/25_240.png',
-    categoria: 'wonderkid',
-    matchPercentage: 87,
-  },
-  {
-    id: '103',
-    nome: 'Rayan Cherki',
-    idade: 21,
-    overall: 79,
-    potencial: 90,
-    posicao: 'CAM',
-    nacionalidade: '🇫🇷',
-    valorMercado: '€45M',
-    fotoUrl: 'https://cdn.sofifa.net/players/265809/25_240.png',
-    categoria: 'wonderkid',
-    matchPercentage: 84,
-  },
-];
-
 type Categoria = 'wonderkid' | 'gem' | 'veteran';
 
 @Injectable({ providedIn: 'root' })
@@ -63,6 +21,9 @@ export class PlayerService {
 
   // Resultados de busca server-side e pool paginado
   readonly #resultadosBusca = signal<Jogador[]>([]);
+
+  // Chave da lenda ativada pela API (ex: 'zidane', 'ronaldinho') ou null se busca comum
+  readonly legendMatched = signal<string | null>(null);
 
   // Totais expostos para o template controlar visibilidade do botão
   readonly totalPromessas = signal(0);
@@ -84,27 +45,21 @@ export class PlayerService {
 
   readonly searchQuery = signal<string>('');
 
-  readonly modoZidane = computed(() =>
-    this.searchQuery().toLowerCase().includes('zidane')
-  );
-
   readonly todosJogadores = this.#jogadores.asReadonly();
 
-  readonly searchResults = computed((): Jogador[] => {
-    if (this.modoZidane()) return CLONES_ZIDANE.map((j) => this.#comFotoProxy(j));
-    return this.#resultadosBusca();
-  });
+  readonly searchResults = this.#resultadosBusca.asReadonly();
 
   constructor() {
     // Dispara busca server-side automaticamente ao mudar a query
     effect(() => {
       const query = this.searchQuery().trim();
-      if (query && !this.modoZidane()) {
+      if (query) {
         this.#paginaBusca.set(1);
         this.#carregarBusca(query, 1);
-      } else if (!query) {
+      } else {
         this.#resultadosBusca.set([]);
         this.totalBusca.set(0);
+        this.legendMatched.set(null);
       }
     });
   }
@@ -159,22 +114,12 @@ export class PlayerService {
       .subscribe((resp) => {
         if (!resp) return;
         totalSignal.set(resp.total);
-        // Normaliza _id do MongoDB para id e reescreve fotoUrl via proxy antes da deduplicação
-        const normalizados = resp.data.map((j) =>
-          this.#comFotoProxy({ ...j, id: j.id ?? j._id ?? '' })
-        );
+        // Normaliza _id do MongoDB para id antes da deduplicação
+        const normalizados = resp.data.map((j) => ({ ...j, id: j.id ?? j._id ?? '' }));
         const idsExistentes = new Set(this.#jogadores().map((j) => j.id));
         const novos = normalizados.filter((j) => !idsExistentes.has(j.id));
         this.#jogadores.set([...this.#jogadores(), ...novos]);
       });
-  }
-
-  // Reescreve a fotoUrl para passar pelo proxy do backend, contornando o bloqueio de hotlinking do CDN
-  #comFotoProxy(jogador: Jogador): Jogador {
-    return {
-      ...jogador,
-      fotoUrl: `${environment.apiUrl}/players/proxy-image?url=${encodeURIComponent(jogador.fotoUrl)}`,
-    };
   }
 
   #carregarBusca(query: string, pagina: number): void {
@@ -191,9 +136,8 @@ export class PlayerService {
       .subscribe((resp) => {
         if (!resp) return;
         this.totalBusca.set(resp.total);
-        const normalizados = resp.data.map((j) =>
-          this.#comFotoProxy({ ...j, id: j.id ?? j._id ?? '' })
-        );
+        this.legendMatched.set(resp.legendMatched ?? null);
+        const normalizados = resp.data.map((j) => ({ ...j, id: j.id ?? j._id ?? '' }));
         if (pagina === 1) {
           this.#resultadosBusca.set(normalizados);
         } else {
@@ -205,7 +149,7 @@ export class PlayerService {
   getPlayerById(id: string): Jogador | undefined {
     const noPrincipal = this.#jogadores().filter((j) => j.id === id);
     if (noPrincipal.length > 0) return noPrincipal[0];
-    // Fallback: busca server-side + clones estáticos do modo Zidane
-    return [...this.#resultadosBusca(), ...CLONES_ZIDANE].filter((j) => j.id === id)[0];
+    // Fallback: busca server-side ainda não normalizada no pool principal
+    return this.#resultadosBusca().filter((j) => j.id === id)[0];
   }
 }

@@ -3,6 +3,8 @@ import { IonIcon } from '@ionic/angular/standalone';
 import { TranslatePipe } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { heart, heartOutline, heartDislikeOutline } from 'ionicons/icons';
+import { environment } from '../../environments/environment';
+import { Jogador } from '../models/player.model';
 import { FavoriteService } from '../services/favorite.service';
 import { PlayerService } from '../services/player.service';
 
@@ -27,5 +29,9 @@ export class FavoritesPage {
 
   limparFoto(evento: Event): void {
     (evento.target as HTMLImageElement).style.display = 'none';
+  }
+
+  fotoUrl(jogador: Jogador): string {
+    return `${environment.apiUrl}/players/proxy-image?eaId=${jogador.eaPlayerId}`;
   }
 }

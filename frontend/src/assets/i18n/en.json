@@ -46,10 +46,11 @@
     "TITLE": "Search Players",
     "PLACEHOLDER": "Search for a player or legend...",
     "NOVO_X": "The New X",
-    "ZIDANE_MODO": "'The New Zidane' Mode Activated!",
-    "ZIDANE_DESC": "Searching for statistical clones... tall midfielders with elite passing.",
+    "LEGEND_MODO": "'{{legend}}'s Heir' Mode Activated!",
+    "LEGEND_DESC": "Searching for active players with that legend's statistical profile.",
     "EMPTY": "No players found with that name.",
-    "HINT": "Type a player name or try 'Zidane' to activate the special mode."
+    "HINT_TITULO": "Looking for the next star?",
+    "HINT": "Type a player name or find the heir of a legend (e.g. 'Zidane', 'Ronaldinho', 'Pelé')."
   },
   "FAVORITES": {
     "TITLE": "My Favorites",

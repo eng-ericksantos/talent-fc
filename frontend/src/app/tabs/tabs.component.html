@@ -2,7 +2,7 @@
 
   <!-- Cabeçalho -->
   <header class="shrink-0 flex justify-between items-center p-4 border-b border-slate-800 bg-soccer-dark">
-    <span class="font-extrabold text-2xl tracking-tight">
+    <span class="font-extrabold text-2xl tracking-tight cursor-pointer select-none" (click)="onLogoClick()">
       <span class="text-soccer-green">Talent</span><span class="text-white">FC</span>
     </span>
     <div class="flex gap-2">
@@ -58,18 +58,6 @@
           {{ 'TABS.FAVORITES' | translate }}
         </span>
       </a>
-
-      @if (usuarioAutenticado()) {
-        <a routerLink="/tabs/admin" routerLinkActive #rlaAdmin="routerLinkActive"
-           [class]="rlaAdmin.isActive
-             ? 'flex flex-col items-center justify-center gap-1 px-4 py-1 text-soccer-green'
-             : 'flex flex-col items-center justify-center gap-1 px-4 py-1 text-white/40'">
-          <ion-icon name="settings-outline" class="text-2xl" />
-          <span class="text-[10px] font-semibold uppercase tracking-wide">
-            {{ 'TABS.ADMIN' | translate }}
-          </span>
-        </a>
-      }
 
     </div>
   </nav>

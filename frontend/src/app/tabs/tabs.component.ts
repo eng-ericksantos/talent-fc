@@ -1,11 +1,9 @@
 import { Component, ChangeDetectionStrategy, effect, inject, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { IonIcon } from '@ionic/angular/standalone';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { heartOutline, homeOutline, searchOutline, settingsOutline } from 'ionicons/icons';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { Auth, authState } from '@angular/fire/auth';
+import { heartOutline, homeOutline, searchOutline } from 'ionicons/icons';
 
 export type AppLanguage = 'pt' | 'en' | 'es';
 
@@ -17,9 +15,13 @@ export type AppLanguage = 'pt' | 'en' | 'es';
 })
 export class TabsComponent {
   private readonly traducao = inject(TranslateService);
+  private readonly router = inject(Router);
+
+  // Easter egg: 5 cliques na logo em até 2s liberam o acesso administrativo
+  private cliquesLogo = 0;
+  private timeoutLogo?: ReturnType<typeof setTimeout>;
 
   readonly idiomaAtivo = signal<AppLanguage>('pt');
-  readonly usuarioAutenticado = toSignal(authState(inject(Auth)));
 
   readonly idiomas: { codigo: AppLanguage; bandeira: string }[] = [
     { codigo: 'pt', bandeira: '🇧🇷' },
@@ -28,7 +30,7 @@ export class TabsComponent {
   ];
 
   constructor() {
-    addIcons({ homeOutline, searchOutline, heartOutline, settingsOutline });
+    addIcons({ homeOutline, searchOutline, heartOutline });
 
     effect(() => {
       this.traducao.use(this.idiomaAtivo());
@@ -37,5 +39,18 @@ export class TabsComponent {
 
   definirIdioma(idioma: AppLanguage): void {
     this.idiomaAtivo.set(idioma);
+  }
+
+  onLogoClick(): void {
+    this.cliquesLogo++;
+    clearTimeout(this.timeoutLogo);
+
+    if (this.cliquesLogo >= 5) {
+      this.cliquesLogo = 0;
+      this.router.navigateByUrl('/tabs/admin');
+      return;
+    }
+
+    this.timeoutLogo = setTimeout(() => (this.cliquesLogo = 0), 2000);
   }
 }

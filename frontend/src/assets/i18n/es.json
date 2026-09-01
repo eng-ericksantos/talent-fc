@@ -46,10 +46,11 @@
     "TITLE": "Buscar Jugadores",
     "PLACEHOLDER": "Buscar jugador o leyenda...",
     "NOVO_X": "El Nuevo X",
-    "ZIDANE_MODO": "¡Modo 'El Nuevo Zidane' Activado!",
-    "ZIDANE_DESC": "Buscando clones estadísticos... mediocampistas altos con pase de élite.",
+    "LEGEND_MODO": "¡Modo 'Heredero de {{legend}}' Activado!",
+    "LEGEND_DESC": "Buscando jugadores activos con el perfil estadístico de esa leyenda.",
     "EMPTY": "Ningún jugador encontrado con ese nombre.",
-    "HINT": "Escribe el nombre de un jugador o prueba 'Zidane' para activar el modo especial."
+    "HINT_TITULO": "¿Buscas la próxima estrella?",
+    "HINT": "Escribe el nombre de un jugador o encuentra al heredero de una leyenda (ej: 'Zidane', 'Ronaldinho', 'Pelé')."
   },
   "FAVORITES": {
     "TITLE": "Mis Favoritos",

@@ -4,6 +4,8 @@ import { IonIcon } from '@ionic/angular/standalone';
 import { TranslatePipe } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { arrowBackOutline, flashOutline, heart, heartOutline } from 'ionicons/icons';
+import { environment } from '../../environments/environment';
+import { Jogador } from '../models/player.model';
 import { FavoriteService } from '../services/favorite.service';
 import { PlayerService } from '../services/player.service';
 
@@ -54,6 +56,10 @@ export class PlayerDetailComponent {
     if (valor >= 75) return 'bg-yellow-400';
     if (valor >= 60) return 'bg-orange-400';
     return 'bg-red-500';
+  }
+
+  fotoUrl(jogador: Jogador): string {
+    return `${environment.apiUrl}/players/proxy-image?eaId=${jogador.eaPlayerId}`;
   }
 
   limparFoto(evento: Event): void {

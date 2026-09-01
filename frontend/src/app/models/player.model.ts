@@ -10,6 +10,7 @@ export interface AtributosJogador {
 export interface Jogador {
   _id?: string;
   id: string;
+  eaPlayerId: number;
   nome: string;
   idade: number;
   overall: number;
@@ -17,7 +18,6 @@ export interface Jogador {
   posicao: string;
   nacionalidade: string;
   valorMercado: string;
-  fotoUrl: string;
   categoria: 'wonderkid' | 'gem' | 'veteran' | 'legend';
   matchPercentage?: number;
   atributos?: AtributosJogador;
@@ -28,4 +28,5 @@ export interface RespostaPaginada<T> {
   total: number;
   page: number;
   totalPages: number;
+  legendMatched?: string;
 }

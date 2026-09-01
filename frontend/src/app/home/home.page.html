@@ -15,7 +15,7 @@
         <div class="w-14 h-14 flex-shrink-0 bg-slate-800 rounded-full border-2 border-slate-700 flex justify-center items-center overflow-hidden relative">
           <span class="absolute text-soccer-green font-bold text-sm select-none">{{ jogador.nome.slice(0, 2) }}</span>
           <img
-            [src]="jogador.fotoUrl"
+            [src]="fotoUrl(jogador)"
             [alt]="jogador.nome"
             referrerpolicy="no-referrer"
             (error)="limparFoto($event)"
@@ -84,7 +84,7 @@
         <div class="w-14 h-14 flex-shrink-0 bg-slate-800 rounded-full border-2 border-slate-700 flex justify-center items-center overflow-hidden relative">
           <span class="absolute text-soccer-green font-bold text-sm select-none">{{ jogador.nome.slice(0, 2) }}</span>
           <img
-            [src]="jogador.fotoUrl"
+            [src]="fotoUrl(jogador)"
             [alt]="jogador.nome"
             referrerpolicy="no-referrer"
             (error)="limparFoto($event)"
@@ -151,7 +151,7 @@
         <div class="w-14 h-14 flex-shrink-0 bg-slate-800 rounded-full border-2 border-slate-700 flex justify-center items-center overflow-hidden relative">
           <span class="absolute text-soccer-green font-bold text-sm select-none">{{ jogador.nome.slice(0, 2) }}</span>
           <img
-            [src]="jogador.fotoUrl"
+            [src]="fotoUrl(jogador)"
             [alt]="jogador.nome"
             referrerpolicy="no-referrer"
             (error)="limparFoto($event)"
