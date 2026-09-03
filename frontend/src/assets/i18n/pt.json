@@ -1,10 +1,22 @@
 {
   "COMMON": {
     "LOAD_MORE": "Carregar Mais",
-    "BACK": "Voltar"
+    "BACK": "Voltar",
+    "CARREGANDO": "Carregando"
   },
   "APP": {
     "NAME": "TalentFC"
+  },
+  "LOGIN": {
+    "TITLE": "Bem-vindo ao TalentFC",
+    "SUBTITLE": "Faça login para acessar seu painel",
+    "EMAIL": "E-mail",
+    "SENHA": "Senha",
+    "ENTRAR": "Entrar",
+    "GOOGLE": "Entrar com Google",
+    "EMAIL_INVALID": "Email inválido",
+    "SENHA_INVALID": "Senha deve ter no mínimo 6 caracteres",
+    "AVISO": "Acesso exclusivo para usuários autenticados. Seu perfil e favoritos serão sincronizados automaticamente."
   },
   "TABS": {
     "INSIGHTS": "Início",
@@ -69,7 +81,8 @@
     "ACTIVE_CYCLE": "Ciclo de Dados Ativo",
     "ACTIVE_CYCLE_DESC": "Selecione a versão do jogo para orientar o Scraper de madrugada.",
     "UPDATE_SCRAPER": "Atualizar Scraper",
-    "SYNCING": "Sincronizando Dados..."
+    "SYNCING": "Sincronizando Dados...",
+    "ACESSO_NEGADO": "Acesso negado. Apenas administradores podem acessar este painel."
   },
   "JOGADOR": {
     "OVR": "OVR",

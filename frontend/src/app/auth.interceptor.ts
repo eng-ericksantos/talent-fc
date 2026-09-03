@@ -1,10 +1,12 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
+import { environment } from '../environments/environment';
 import { from, switchMap } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  if (!req.url.includes('/admin/trigger-worker')) {
+  // Apenas interceptar requisições para a nossa API
+  if (!req.url.includes(environment.apiUrl)) {
     return next(req);
   }
 

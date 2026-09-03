@@ -3,7 +3,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { Auth, authState } from '@angular/fire/auth';
 import { map, take } from 'rxjs';
 
-export const adminGuard: CanActivateFn = () => {
+export const authGuard: CanActivateFn = () => {
   const auth = inject(Auth);
   const router = inject(Router);
 

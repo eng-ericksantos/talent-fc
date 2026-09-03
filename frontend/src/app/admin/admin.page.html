@@ -1,53 +1,13 @@
-@if (!isLoggedIn()) {
-  <div class="min-h-screen bg-soccer-dark flex items-center justify-center p-6">
-    <div class="w-full max-w-sm space-y-6">
-      <div class="text-center space-y-1">
-        <h1 class="text-2xl font-bold text-slate-100">{{ 'ADMIN.LOGIN_TITLE' | translate }}</h1>
-        <p class="text-slate-400 text-sm">{{ 'ADMIN.LOGIN_SUBTITLE' | translate }}</p>
-      </div>
-
-      <div class="space-y-4">
-        <div class="space-y-1">
-          <label class="text-slate-400 text-xs uppercase tracking-wider">{{ 'ADMIN.EMAIL' | translate }}</label>
-          <input
-            type="email"
-            [(ngModel)]="email"
-            class="w-full bg-slate-900 border border-slate-700/50 rounded-xl px-4 py-3 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-soccer-green/50 transition-colors"
-            placeholder="admin@talentfc.app"
-          />
-        </div>
-
-        <div class="space-y-1">
-          <label class="text-slate-400 text-xs uppercase tracking-wider">{{ 'ADMIN.PASSWORD' | translate }}</label>
-          <input
-            type="password"
-            [(ngModel)]="senha"
-            class="w-full bg-slate-900 border border-slate-700/50 rounded-xl px-4 py-3 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-soccer-green/50 transition-colors"
-            placeholder="••••••••"
-          />
-        </div>
-
-        @if (erroLogin()) {
-          <p class="text-red-400 text-xs text-center">{{ erroLogin() | translate }}</p>
-        }
-
-        <button
-          (click)="login()"
-          class="w-full bg-soccer-green text-slate-900 font-bold py-3 rounded-xl text-sm tracking-wide mt-2"
-        >
-          {{ 'ADMIN.ACCESS_BUTTON' | translate }}
-        </button>
-      </div>
-    </div>
-  </div>
-} @else {
+@if (usuarioEmail()) {
   <div class="min-h-screen bg-soccer-dark p-4 space-y-6">
     <div class="flex items-center justify-between">
-      <h1 class="text-xl font-bold text-slate-100">{{ 'ADMIN.DASHBOARD_TITLE' | translate }}</h1>
+      <div class="space-y-1">
+        <h1 class="text-xl font-bold text-slate-100">{{ 'ADMIN.DASHBOARD_TITLE' | translate }}</h1>
+        <p class="text-xs text-slate-500">{{ usuarioEmail() }}</p>
+      </div>
       <button
         (click)="logout()"
-        class="text-slate-400 text-xs border border-slate-700/50 rounded-lg px-3 py-1.5 hover:border-slate-500 transition-colors"
-      >
+        class="text-slate-400 text-xs border border-slate-700/50 rounded-lg px-3 py-1.5 hover:border-slate-500 transition-colors">
         {{ 'ADMIN.LOGOUT' | translate }}
       </button>
     </div>
@@ -67,8 +27,7 @@
             class="flex-1 py-2.5 rounded-xl text-sm font-semibold border transition-colors"
             [class]="activeVersion() === versao
               ? 'bg-soccer-green text-slate-900 border-soccer-green'
-              : 'bg-slate-800 text-slate-400 border-slate-700/50'"
-          >
+              : 'bg-slate-800 text-slate-400 border-slate-700/50'">
             FC {{ versao }}
           </button>
         }
@@ -79,10 +38,18 @@
         [disabled]="isSyncing()"
         class="w-full bg-soccer-green/10 text-soccer-green border border-soccer-green/30 font-semibold py-3 rounded-xl text-sm tracking-wide hover:bg-soccer-green/20 transition-colors"
         [class.opacity-50]="isSyncing()"
-        [class.cursor-not-allowed]="isSyncing()"
-      >
+        [class.cursor-not-allowed]="isSyncing()">
         {{ isSyncing() ? ('ADMIN.SYNCING' | translate) : ('ADMIN.UPDATE_SCRAPER' | translate) }}
       </button>
     </section>
+  </div>
+} @else {
+  <div class="min-h-screen bg-soccer-dark flex items-center justify-center p-4">
+    <div class="text-center space-y-4">
+      <p class="text-slate-400 text-sm">{{ 'ADMIN.ACESSO_NEGADO' | translate }}</p>
+      <button (click)="logout()" class="text-soccer-green text-sm font-semibold hover:text-emerald-400">
+        {{ 'LOGIN.ENTRAR' | translate }}
+      </button>
+    </div>
   </div>
 }

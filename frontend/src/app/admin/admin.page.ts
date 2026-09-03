@@ -1,51 +1,32 @@
-import { Component, ChangeDetectionStrategy, computed, inject, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
-import { catchError, finalize, from, of } from 'rxjs';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { Auth, authState, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { Router } from '@angular/router';
+import { catchError, finalize, of } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-admin',
   templateUrl: 'admin.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslatePipe, FormsModule],
+  imports: [CommonModule, TranslatePipe],
 })
 export class AdminPage {
-  readonly #http = inject(HttpClient);
-  readonly #auth = inject(Auth);
-
-  private readonly usuarioAtual = toSignal(authState(this.#auth));
-  readonly isLoggedIn = computed(() => !!this.usuarioAtual());
+  private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
+  readonly authService = inject(AuthService);
 
   readonly activeVersion = signal<number>(26);
   readonly isSyncing = signal<boolean>(false);
-  readonly erroLogin = signal<string>('');
-
-  email = '';
-  senha = '';
-
-  login(): void {
-    this.erroLogin.set('');
-    from(signInWithEmailAndPassword(this.#auth, this.email, this.senha)).pipe(
-      catchError(() => {
-        this.erroLogin.set('ADMIN.LOGIN_ERROR');
-        return of(null);
-      }),
-    ).subscribe();
-  }
-
-  logout(): void {
-    from(signOut(this.#auth)).subscribe();
-  }
+  readonly usuarioEmail = this.authService.userEmail;
 
   atualizarScraper(): void {
     if (this.isSyncing()) return;
     this.isSyncing.set(true);
 
-    this.#http
+    this.http
       .post(`${environment.apiUrl}/admin/trigger-worker`, {})
       .pipe(
         catchError((erro) => {
@@ -55,5 +36,10 @@ export class AdminPage {
         finalize(() => this.isSyncing.set(false)),
       )
       .subscribe();
+  }
+
+  async logout(): Promise<void> {
+    await this.authService.logout();
+    this.router.navigateByUrl('/login');
   }
 }

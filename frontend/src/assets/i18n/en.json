@@ -1,10 +1,22 @@
 {
   "COMMON": {
     "LOAD_MORE": "Load More",
-    "BACK": "Back"
+    "BACK": "Back",
+    "CARREGANDO": "Loading"
   },
   "APP": {
     "NAME": "TalentFC"
+  },
+  "LOGIN": {
+    "TITLE": "Welcome to TalentFC",
+    "SUBTITLE": "Sign in to access your dashboard",
+    "EMAIL": "Email",
+    "SENHA": "Password",
+    "ENTRAR": "Sign In",
+    "GOOGLE": "Sign in with Google",
+    "EMAIL_INVALID": "Invalid email",
+    "SENHA_INVALID": "Password must be at least 6 characters",
+    "AVISO": "Exclusive access for authenticated users. Your profile and favorites will be synchronized automatically."
   },
   "TABS": {
     "INSIGHTS": "Home",
@@ -69,7 +81,8 @@
     "ACTIVE_CYCLE": "Active Data Cycle",
     "ACTIVE_CYCLE_DESC": "Select the game version to guide the overnight Scraper.",
     "UPDATE_SCRAPER": "Update Scraper",
-    "SYNCING": "Syncing Data..."
+    "SYNCING": "Syncing Data...",
+    "ACESSO_NEGADO": "Access denied. Only administrators can access this panel."
   },
   "JOGADOR": {
     "OVR": "OVR",

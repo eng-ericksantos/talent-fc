@@ -1,0 +1,54 @@
+// Glassmorphism e animações customizadas
+:host {
+  --ion-background-color: transparent;
+}
+
+ion-content {
+  --background: transparent;
+}
+
+// Input focus styling
+input {
+  &:focus {
+    outline: none;
+  }
+}
+
+// Animações personalizadas
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Suporte para browsers que não suportam backdrop-filter
+@supports not (backdrop-filter: blur(1px)) {
+  .bg-white\/5 {
+    background-color: rgba(15, 23, 42, 0.7);
+  }
+}
