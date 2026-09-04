@@ -1,22 +1,33 @@
 {
   "COMMON": {
-    "LOAD_MORE": "Cargar Más",
+    "LOAD_MORE": "Cargar Mas",
     "BACK": "Volver",
-    "CARREGANDO": "Cargando"
+    "LOADING": "Cargando"
   },
   "APP": {
     "NAME": "TalentFC"
   },
   "LOGIN": {
     "TITLE": "Bienvenido a TalentFC",
-    "SUBTITLE": "Inicia sesión para acceder a tu panel",
-    "EMAIL": "Correo Electrónico",
-    "SENHA": "Contraseña",
-    "ENTRAR": "Iniciar Sesión",
-    "GOOGLE": "Iniciar sesión con Google",
-    "EMAIL_INVALID": "Email inválido",
-    "SENHA_INVALID": "La contraseña debe tener al menos 6 caracteres",
-    "AVISO": "Acceso exclusivo para usuarios autenticados. Tu perfil y favoritos se sincronizarán automáticamente."
+    "SUBTITLE": "Inicia sesion para acceder a tu panel",
+    "EMAIL": "Correo Electronico",
+    "SENHA": "Contrasena",
+    "ENTRAR": "Iniciar Sesion",
+    "GOOGLE": "Iniciar sesion con Google",
+    "OR": "O",
+    "EMAIL_INVALID": "Email invalido",
+    "SENHA_INVALID": "La contrasena debe tener al menos 6 caracteres",
+    "AVISO": "Acceso exclusivo para usuarios autenticados. Tu perfil y favoritos se sincronizaran automaticamente.",
+    "CREAR_CUENTA": "Crear Cuenta",
+    "CADASTRAR": "Registrarse",
+    "RECUPERAR": "Recuperar Contrasena",
+    "ENVIAR_LINK": "Enviar Enlace de Recuperacion",
+    "CRIAR_NOVA_CONTA": "No tienes cuenta? Crea una",
+    "JA_TEM_CONTA": "Ya tienes cuenta? Inicia sesion",
+    "ESQUECI_SENHA": "Olvide mi contrasena",
+    "VOLTAR_LOGIN": "Volver al inicio de sesion",
+    "EMAIL_ENVIADO": "Se ha enviado un enlace de recuperacion a tu correo electronico. Verifica tu bandeja de entrada y carpeta de spam.",
+    "TEXTO_RECUPERACAO": "Te enviaremos un enlace para recuperar tu contrasena."
   },
   "TABS": {
     "INSIGHTS": "Inicio",
@@ -27,6 +38,9 @@
     "SEARCH": "Buscar",
     "FAVORITES": "Favoritos",
     "ADMIN": "Admin"
+  },
+  "HEADER": {
+    "LOGOUT": "Cerrar Sesion"
   },
   "INSIGHTS": {
     "TITLE": "Panel de Insights",
@@ -41,7 +55,7 @@
   },
   "FAVORITOS": {
     "TITLE": "Mis Favoritos",
-    "EMPTY": "Ningún jugador guardado aún."
+    "EMPTY": "Ningun jugador guardado aun."
   },
   "MERCADO": {
     "TITLE": "Mercado",
@@ -58,30 +72,51 @@
     "TITLE": "Buscar Jugadores",
     "PLACEHOLDER": "Buscar jugador o leyenda...",
     "NOVO_X": "El Nuevo X",
-    "LEGEND_MODO": "¡Modo 'Heredero de {{legend}}' Activado!",
-    "LEGEND_DESC": "Buscando jugadores activos con el perfil estadístico de esa leyenda.",
-    "EMPTY": "Ningún jugador encontrado con ese nombre.",
-    "HINT_TITULO": "¿Buscas la próxima estrella?",
-    "HINT": "Escribe el nombre de un jugador o encuentra al heredero de una leyenda (ej: 'Zidane', 'Ronaldinho', 'Pelé')."
+    "LEGEND_MODO": "Modo Heredero de {{legend}} Activado!",
+    "LEGEND_DESC": "Buscando jugadores activos con el perfil estadistico de esa leyenda.",
+    "EMPTY": "Ningun jugador encontrado con ese nombre.",
+    "HINT_TITULO": "Buscas la proxima estrella?",
+    "HINT": "Escribe el nombre de un jugador o encuentra al heredero de una leyenda (ej: Zidane, Ronaldinho, Pele).",
+    "CLEAR_SEARCH": "Limpiar busqueda",
+    "ADVANCED_FILTERS": "Filtros Avanzados",
+    "MAX_AGE": "Edad Maxima",
+    "MIN_POT": "Potencial Minimo",
+    "POSITION": "Posicion",
+    "ANY": "Cualquiera",
+    "POS_ATA": "Ataque",
+    "POS_MEI": "Centrocampo",
+    "POS_DEF": "Defensa",
+    "POS_GOL": "Portero",
+    "APPLY_FILTERS": "Aplicar Filtros",
+    "FILTERS": "Filtros"
   },
   "FAVORITES": {
     "TITLE": "Mis Favoritos",
-    "EMPTY": "Ningún jugador guardado aún."
+    "EMPTY": "Ningun jugador guardado aun."
   },
   "ADMIN": {
     "TITLE": "Panel Administrativo",
-    "VERSION": "Versión del Juego",
+    "VERSION": "Version del Juego",
     "LOGIN_TITLE": "Acceso Restringido",
     "LOGIN_SUBTITLE": "Panel de control de TalentFC",
     "EMAIL": "Correo",
-    "PASSWORD": "Contraseña",
+    "PASSWORD": "Contrasena",
     "ACCESS_BUTTON": "Ingresar al Panel",
     "DASHBOARD_TITLE": "Panel de Control",
     "LOGOUT": "Salir",
     "ACTIVE_CYCLE": "Ciclo de Datos Activo",
-    "ACTIVE_CYCLE_DESC": "Seleccione la versión del juego para orientar el Scraper nocturno.",
+    "ACTIVE_CYCLE_DESC": "Seleccione la version del juego para orientar el Scraper nocturno.",
     "UPDATE_SCRAPER": "Actualizar Scraper",
     "SYNCING": "Sincronizando Datos...",
+    "UPLOAD_CSV_TITLE": "Cargar CSV de Jugadores",
+    "UPLOAD_CSV_DESC": "Cargue un archivo CSV con datos de jugadores de diferentes fuentes (Kaggle, EA Sports, etc.).",
+    "SELECT_FILE": "Seleccionar Archivo CSV",
+    "UPLOADING": "Cargando CSV...",
+    "UPLOAD_CSV_BUTTON": "Cargar CSV",
+    "TOTAL_PLAYERS": "Total de Jugadores",
+    "NEW_RECORDS": "Nuevos Registros",
+    "UPDATED": "Actualizados",
+    "ERROR_UPLOAD": "Error al cargar archivo",
     "ACESSO_NEGADO": "Acceso denegado. Solo los administradores pueden acceder a este panel."
   },
   "JOGADOR": {
@@ -92,10 +127,10 @@
     "FAVORITAR": "Marcar jugador"
   },
   "DETALHE": {
-    "ATRIBUTOS": "Atributos Técnicos",
-    "ATTR_VISAO": "Visión",
+    "ATRIBUTOS": "Atributos Tecnicos",
+    "ATTR_VISAO": "Vision",
     "ATTR_PASSE": "Pase Corto",
-    "ATTR_CONTROLE": "Control de Balón",
+    "ATTR_CONTROLE": "Control de Balon",
     "ATTR_DRIBLE": "Regate",
     "ATTR_COMPOSTURA": "Compostura",
     "ATTR_AGILIDADE": "Agilidad",

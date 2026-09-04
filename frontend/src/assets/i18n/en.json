@@ -14,9 +14,20 @@
     "SENHA": "Password",
     "ENTRAR": "Sign In",
     "GOOGLE": "Sign in with Google",
+    "OR": "OR",
     "EMAIL_INVALID": "Invalid email",
     "SENHA_INVALID": "Password must be at least 6 characters",
-    "AVISO": "Exclusive access for authenticated users. Your profile and favorites will be synchronized automatically."
+    "AVISO": "Exclusive access for authenticated users. Your profile and favorites will be synchronized automatically.",
+    "CRIAR_CONTA": "Create Account",
+    "CADASTRAR": "Sign Up",
+    "RECUPERAR": "Reset Password",
+    "ENVIAR_LINK": "Send Recovery Link",
+    "CRIAR_NOVA_CONTA": "Don't have an account? Create one",
+    "JA_TEM_CONTA": "Already have an account? Sign in",
+    "ESQUECI_SENHA": "Forgot your password",
+    "VOLTAR_LOGIN": "Back to login",
+    "EMAIL_ENVIADO": "A recovery link has been sent to your email. Check your inbox and spam folder.",
+    "TEXTO_RECUPERACAO": "We'll send you a link to reset your password."
   },
   "TABS": {
     "INSIGHTS": "Home",
@@ -27,6 +38,9 @@
     "SEARCH": "Search",
     "FAVORITES": "Favorites",
     "ADMIN": "Admin"
+  },
+  "HEADER": {
+    "LOGOUT": "Sign Out"
   },
   "INSIGHTS": {
     "TITLE": "Insights Panel",
@@ -62,7 +76,19 @@
     "LEGEND_DESC": "Searching for active players with that legend's statistical profile.",
     "EMPTY": "No players found with that name.",
     "HINT_TITULO": "Looking for the next star?",
-    "HINT": "Type a player name or find the heir of a legend (e.g. 'Zidane', 'Ronaldinho', 'Pelé')."
+    "HINT": "Type a player name or find the heir of a legend (e.g. 'Zidane', 'Ronaldinho', 'Pelé').",
+    "CLEAR_SEARCH": "Clear search",
+    "ADVANCED_FILTERS": "Advanced Filters",
+    "MAX_AGE": "Maximum Age",
+    "MIN_POT": "Minimum Potential",
+    "POSITION": "Position",
+    "ANY": "Any",
+    "POS_ATA": "Attack",
+    "POS_MEI": "Midfield",
+    "POS_DEF": "Defense",
+    "POS_GOL": "Goalkeeper",
+    "APPLY_FILTERS": "Apply Filters",
+    "FILTERS": "Filters"
   },
   "FAVORITES": {
     "TITLE": "My Favorites",
@@ -82,6 +108,15 @@
     "ACTIVE_CYCLE_DESC": "Select the game version to guide the overnight Scraper.",
     "UPDATE_SCRAPER": "Update Scraper",
     "SYNCING": "Syncing Data...",
+    "UPLOAD_CSV_TITLE": "Upload Player CSV",
+    "UPLOAD_CSV_DESC": "Upload a CSV file with player data from different sources (Kaggle, EA Sports, etc.).",
+    "SELECT_FILE": "Select CSV File",
+    "UPLOADING": "Uploading CSV...",
+    "UPLOAD_CSV_BUTTON": "Upload CSV",
+    "TOTAL_PLAYERS": "Total Players",
+    "NEW_RECORDS": "New Records",
+    "UPDATED": "Updated",
+    "ERROR_UPLOAD": "Error uploading file",
     "ACESSO_NEGADO": "Access denied. Only administrators can access this panel."
   },
   "JOGADOR": {

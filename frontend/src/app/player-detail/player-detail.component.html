@@ -51,15 +51,15 @@
 
         <!-- Botão Favoritar -->
         <button
-          (click)="favoritoService.toggleFavorito(j.id)"
+          (click)="favoritoService.toggleFavorito(j.eaPlayerId, j.nome)"
           class="flex items-center gap-2 px-5 py-2 rounded-xl border transition-colors"
-          [class]="favoritoService.isFavorito(j.id)
+          [class]="favoritoService.isFavorito(j.eaPlayerId)
             ? 'border-rose-500/40 bg-rose-500/10 text-rose-400'
             : 'border-slate-700/50 bg-transparent text-slate-400 hover:bg-slate-800'"
           [attr.aria-label]="'JOGADOR.FAVORITAR' | translate">
-          <ion-icon [name]="favoritoService.isFavorito(j.id) ? 'heart' : 'heart-outline'" class="text-lg" />
+          <ion-icon [name]="favoritoService.isFavorito(j.eaPlayerId) ? 'heart' : 'heart-outline'" class="text-lg" />
           <span class="text-sm font-semibold">
-            {{ (favoritoService.isFavorito(j.id) ? 'DETALHE.FAVORITADO' : 'DETALHE.FAVORITAR') | translate }}
+            {{ (favoritoService.isFavorito(j.eaPlayerId) ? 'DETALHE.FAVORITADO' : 'DETALHE.FAVORITAR') | translate }}
           </span>
         </button>
       </div>

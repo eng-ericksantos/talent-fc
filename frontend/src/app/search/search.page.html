@@ -14,11 +14,20 @@
         [placeholder]="'SEARCH.PLACEHOLDER' | translate"
         class="flex-1 bg-transparent text-sm text-slate-100 placeholder-slate-500 outline-none"
       />
+      <button
+        (click)="toggleFilters()"
+        class="text-slate-500 hover:text-soccer-green transition-colors p-1"
+        [attr.aria-label]="'SEARCH.FILTERS' | translate"
+        title="Filtros avançados">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+        </svg>
+      </button>
       @if (playerService.searchQuery()) {
         <button
           (click)="playerService.searchQuery.set('')"
           class="text-slate-500 hover:text-slate-300 transition-colors"
-          aria-label="Limpar busca"
+          [attr.aria-label]="'SEARCH.CLEAR_SEARCH' | translate"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
@@ -26,6 +35,146 @@
         </button>
       }
     </div>
+  </div>
+
+  <!-- Backdrop do Bottom Sheet -->
+  @if (isFilterOpen()) {
+    <div
+      class="fixed inset-0 bg-black/60 z-40 transition-opacity"
+      (click)="toggleFilters()">
+    </div>
+  }
+
+  <!-- Bottom Sheet de Filtros -->
+  <div
+    class="fixed bottom-0 left-0 right-0 bg-slate-900 rounded-t-3xl p-6 z-50 transform transition-transform duration-300 shadow-2xl"
+    [class.translate-y-0]="isFilterOpen()"
+    [class.translate-y-full]="!isFilterOpen()">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-700">
+      <h2 class="text-lg font-bold text-slate-100">{{ 'SEARCH.ADVANCED_FILTERS' | translate }}</h2>
+      <button
+        (click)="toggleFilters()"
+        class="text-slate-400 hover:text-slate-200 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Idade Máxima -->
+    <div class="mb-6">
+      <label class="block text-sm font-semibold text-slate-300 mb-2">
+        {{ 'SEARCH.MAX_AGE' | translate }}: <span class="text-soccer-green">{{ maxAge() }}</span>
+      </label>
+      <input
+        type="range"
+        min="15"
+        max="40"
+        [value]="maxAge()"
+        (change)="maxAge.set(+$any($event.target).value)"
+        class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-soccer-green">
+      <div class="flex justify-between text-xs text-slate-500 mt-1">
+        <span>15</span>
+        <span>40</span>
+      </div>
+    </div>
+
+    <!-- Potencial Mínimo (POT) -->
+    <div class="mb-6">
+      <label class="block text-sm font-semibold text-slate-300 mb-2">
+        {{ 'SEARCH.MIN_POT' | translate }}: <span class="text-soccer-green">{{ minPot() }}</span>
+      </label>
+      <input
+        type="range"
+        min="60"
+        max="99"
+        [value]="minPot()"
+        (change)="minPot.set(+$any($event.target).value)"
+        class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-soccer-green">
+      <div class="flex justify-between text-xs text-slate-500 mt-1">
+        <span>60</span>
+        <span>99</span>
+      </div>
+    </div>
+
+    <!-- Posição -->
+    <div class="mb-6">
+      <label class="block text-sm font-semibold text-slate-300 mb-3">
+        {{ 'SEARCH.POSITION' | translate }}
+      </label>
+      <div class="flex flex-wrap gap-3">
+        <button
+          (click)="position.set('')"
+          [class.bg-soccer-green]="position() === ''"
+          [class.bg-slate-700/50]="position() !== ''"
+          [class.text-slate-900]="position() === ''"
+          [class.text-slate-300]="position() !== ''"
+          [class.border-soccer-green/50]="position() === ''"
+          [class.border-slate-600/30]="position() !== ''"
+          class="h-10 px-6 py-2 rounded-lg text-sm font-semibold border transition-all duration-200 hover:border-soccer-green hover:bg-soccer-green/10 hover:text-soccer-green cursor-pointer flex items-center justify-center whitespace-nowrap"
+          style="padding: 0.5rem 1.5rem;">
+          {{ 'SEARCH.ANY' | translate }}
+        </button>
+        <button
+          (click)="position.set('ATA')"
+          [class.bg-soccer-green]="position() === 'ATA'"
+          [class.bg-slate-700/50]="position() !== 'ATA'"
+          [class.text-slate-900]="position() === 'ATA'"
+          [class.text-slate-300]="position() !== 'ATA'"
+          [class.border-soccer-green/50]="position() === 'ATA'"
+          [class.border-slate-600/30]="position() !== 'ATA'"
+          class="h-10 px-6 py-2 rounded-lg text-sm font-semibold border transition-all duration-200 hover:border-soccer-green hover:bg-soccer-green/10 hover:text-soccer-green cursor-pointer flex items-center justify-center whitespace-nowrap"
+          style="padding: 0.5rem 1.5rem;">
+          {{ 'SEARCH.POS_ATA' | translate }}
+        </button>
+        <button
+          (click)="position.set('MEI')"
+          [class.bg-soccer-green]="position() === 'MEI'"
+          [class.bg-slate-700/50]="position() !== 'MEI'"
+          [class.text-slate-900]="position() === 'MEI'"
+          [class.text-slate-300]="position() !== 'MEI'"
+          [class.border-soccer-green/50]="position() === 'MEI'"
+          [class.border-slate-600/30]="position() !== 'MEI'"
+          class="h-10 px-6 py-2 rounded-lg text-sm font-semibold border transition-all duration-200 hover:border-soccer-green hover:bg-soccer-green/10 hover:text-soccer-green cursor-pointer flex items-center justify-center whitespace-nowrap"
+          style="padding: 0.5rem 1.5rem;">
+          {{ 'SEARCH.POS_MEI' | translate }}
+        </button>
+        <button
+          (click)="position.set('DEF')"
+          [class.bg-soccer-green]="position() === 'DEF'"
+          [class.bg-slate-700/50]="position() !== 'DEF'"
+          [class.text-slate-900]="position() === 'DEF'"
+          [class.text-slate-300]="position() !== 'DEF'"
+          [class.border-soccer-green/50]="position() === 'DEF'"
+          [class.border-slate-600/30]="position() !== 'DEF'"
+          class="h-10 px-6 py-2 rounded-lg text-sm font-semibold border transition-all duration-200 hover:border-soccer-green hover:bg-soccer-green/10 hover:text-soccer-green cursor-pointer flex items-center justify-center whitespace-nowrap"
+          style="padding: 0.5rem 1.5rem;">
+          {{ 'SEARCH.POS_DEF' | translate }}
+        </button>
+        <button
+          (click)="position.set('GOL')"
+          [class.bg-soccer-green]="position() === 'GOL'"
+          [class.bg-slate-700/50]="position() !== 'GOL'"
+          [class.text-slate-900]="position() === 'GOL'"
+          [class.text-slate-300]="position() !== 'GOL'"
+          [class.border-soccer-green/50]="position() === 'GOL'"
+          [class.border-slate-600/30]="position() !== 'GOL'"
+          class="h-10 px-6 py-2 rounded-lg text-sm font-semibold border transition-all duration-200 hover:border-soccer-green hover:bg-soccer-green/10 hover:text-soccer-green cursor-pointer flex items-center justify-center whitespace-nowrap"
+          style="padding: 0.5rem 1.5rem;">
+          {{ 'SEARCH.POS_GOL' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Botão Aplicar Filtros -->
+    <button
+      (click)="aplicarFiltros()"
+      class="w-full mt-8 h-12 flex items-center justify-center px-6 rounded-full font-bold text-base text-slate-900 bg-gradient-to-r from-soccer-green to-emerald-600 hover:from-soccer-green hover:to-emerald-500 transition-all duration-200 shadow-lg hover:shadow-xl">
+      {{ 'SEARCH.APPLY_FILTERS' | translate }}
+    </button>
+
   </div>
 
   <div class="px-4 pt-4">
@@ -101,12 +250,12 @@
 
             <!-- Botão Favoritar -->
             <button
-              (click)="$event.stopPropagation(); favoritoService.toggleFavorito(jogador.id)"
+              (click)="$event.stopPropagation(); favoritoService.toggleFavorito(jogador.eaPlayerId, jogador.nome)"
               class="shrink-0 p-1"
               [attr.aria-label]="'JOGADOR.FAVORITAR' | translate">
               <ion-icon
-                [name]="favoritoService.isFavorito(jogador.id) ? 'heart' : 'heart-outline'"
-                [class]="favoritoService.isFavorito(jogador.id) ? 'text-xl text-rose-500' : 'text-xl text-slate-500'">
+                [name]="favoritoService.isFavorito(jogador.eaPlayerId) ? 'heart' : 'heart-outline'"
+                [class]="favoritoService.isFavorito(jogador.eaPlayerId) ? 'text-xl text-rose-500' : 'text-xl text-slate-500'">
               </ion-icon>
             </button>
 
@@ -116,7 +265,7 @@
       @if (playerService.searchResults().length < playerService.totalBusca()) {
         <button
           (click)="playerService.carregarMaisBusca()"
-          class="w-full mt-2 mb-4 py-2.5 rounded-xl text-sm text-slate-300 border border-slate-700/50 bg-transparent hover:bg-slate-800 transition-colors">
+          class="w-full mt-2 mb-4 h-11 flex items-center justify-center rounded-xl text-sm text-slate-300 border border-slate-700/50 bg-transparent hover:bg-slate-800 transition-colors\">
           {{ 'COMMON.LOAD_MORE' | translate }}
         </button>
       }

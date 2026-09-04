@@ -53,7 +53,7 @@
 
         <!-- Botão Remover Favorito -->
         <button
-          (click)="favoritoService.toggleFavorito(jogador.id)"
+          (click)="favoritoService.toggleFavorito(jogador.eaPlayerId, jogador.nome)"
           class="shrink-0 p-1"
           [attr.aria-label]="'JOGADOR.FAVORITAR' | translate">
           <ion-icon name="heart" class="text-xl text-rose-500"></ion-icon>

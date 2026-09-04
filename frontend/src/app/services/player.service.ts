@@ -6,6 +6,12 @@ import { Jogador, RespostaPaginada } from '../models/player.model';
 
 type Categoria = 'wonderkid' | 'gem' | 'veteran';
 
+export interface SearchFilters {
+  maxAge?: number;
+  minPot?: number;
+  position?: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class PlayerService {
   readonly #http = inject(HttpClient);
@@ -21,6 +27,9 @@ export class PlayerService {
 
   // Resultados de busca server-side e pool paginado
   readonly #resultadosBusca = signal<Jogador[]>([]);
+
+  // Filtros avançados
+  readonly #filtros = signal<SearchFilters>({});
 
   // Chave da lenda ativada pela API (ex: 'zidane', 'ronaldinho') ou null se busca comum
   readonly legendMatched = signal<string | null>(null);
@@ -62,6 +71,15 @@ export class PlayerService {
         this.legendMatched.set(null);
       }
     });
+  }
+
+  setSearchFilters(filtros: SearchFilters): void {
+    this.#filtros.set(filtros);
+    const query = this.searchQuery().trim();
+    if (query) {
+      this.#paginaBusca.set(1);
+      this.#carregarBusca(query, 1);
+    }
   }
 
   loadPlayers(): void {
@@ -123,10 +141,21 @@ export class PlayerService {
   }
 
   #carregarBusca(query: string, pagina: number): void {
+    const filtros = this.#filtros();
+    let url = `${environment.apiUrl}/players?search=${encodeURIComponent(query)}&page=${pagina}&limit=20`;
+
+    if (filtros.maxAge) {
+      url += `&maxAge=${filtros.maxAge}`;
+    }
+    if (filtros.minPot) {
+      url += `&minPot=${filtros.minPot}`;
+    }
+    if (filtros.position) {
+      url += `&position=${encodeURIComponent(filtros.position)}`;
+    }
+
     this.#http
-      .get<RespostaPaginada<Jogador>>(
-        `${environment.apiUrl}/players?search=${encodeURIComponent(query)}&page=${pagina}&limit=20`
-      )
+      .get<RespostaPaginada<Jogador>>(url)
       .pipe(
         catchError((erro) => {
           console.error('[PlayerService] Falha na busca:', erro);

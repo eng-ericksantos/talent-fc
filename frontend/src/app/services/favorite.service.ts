@@ -39,6 +39,14 @@ export class FavoriteService {
 
   async toggleFavorito(eaPlayerId: string | number, jogadorNome?: string): Promise<void> {
     const id = Number(eaPlayerId);
+
+    // Validação defensiva
+    if (!eaPlayerId || isNaN(id) || id <= 0) {
+      console.error('[FavoriteService] Erro: ID do jogador (eaPlayerId) inválido ou não encontrado', eaPlayerId);
+      this.erro.set('Erro: Identificador do jogador não disponível');
+      return;
+    }
+
     const idString = String(id);
     const atual = this.favoritosIds();
 

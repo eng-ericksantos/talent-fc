@@ -20,11 +20,13 @@ export class FavoritesPage {
 
   readonly jogadoresFavoritos = computed(() => {
     const ids = this.favoritoService.favoritosIds();
-    return this.playerService.todosJogadores().filter((j) => ids.includes(j.id));
+    return this.playerService.todosJogadores().filter((j) => ids.includes(String(j.eaPlayerId)));
   });
 
   constructor() {
     addIcons({ heart, heartOutline, heartDislikeOutline });
+    // Garantir que os dados dos jogadores sejam carregados
+    this.playerService.loadPlayers();
   }
 
   limparFoto(evento: Event): void {

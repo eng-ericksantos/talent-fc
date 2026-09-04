@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { IonIcon } from '@ionic/angular/standalone';
@@ -20,9 +20,27 @@ export class SearchPage {
   readonly playerService = inject(PlayerService);
   readonly favoritoService = inject(FavoriteService);
 
+  readonly isFilterOpen = signal(false);
+  readonly maxAge = signal(21);
+  readonly minPot = signal(80);
+  readonly position = signal('');
+
   constructor() {
     addIcons({ heart, heartOutline });
   }
+
+  readonly toggleFilters = () => {
+    this.isFilterOpen.update((value) => !value);
+  };
+
+  readonly aplicarFiltros = () => {
+    this.playerService.setSearchFilters({
+      maxAge: this.maxAge(),
+      minPot: this.minPot(),
+      position: this.position(),
+    });
+    this.isFilterOpen.set(false);
+  };
 
   readonly limparFoto = (event: Event) => {
     (event.target as HTMLImageElement).style.display = 'none';
