@@ -1,0 +1,16 @@
+id,commonName,age,overallRating,potential,position,nationality,marketValue,stamina,interceptions,pace,shooting,dribbling
+1,Cristiano Ronaldo,38,89,89,ST,Portugal,15000000,87,45,89,93,87
+2,Lionel Messi,36,91,91,LW,Argentina,20000000,72,38,85,94,96
+3,Neymar Jr,31,87,87,LW,Brazil,8500000,78,24,91,84,96
+4,Kylian Mbappé,24,91,96,ST,France,180000000,89,31,96,94,95
+5,Vinicius Jr,23,88,95,LW,Brazil,50000000,85,22,96,85,91
+6,Erling Haaland,23,89,99,ST,Norway,95000000,89,28,94,94,86
+7,Jude Bellingham,20,82,94,CM,England,80000000,82,56,83,76,80
+8,Rodri,31,91,91,CM,Spain,70000000,78,71,76,71,79
+9,Vinicious Amorim,22,84,92,LW,Brazil,35000000,84,20,93,83,88
+10,Harry Kane,35,89,89,ST,England,25000000,79,31,79,96,86
+11,Gianluigi Donnarumma,25,89,94,GK,Italy,60000000,90,12,58,16,42
+12,Vinícius Sousa,20,78,91,CB,Brazil,15000000,75,68,68,28,54
+13,João Félix,24,86,92,LW,Portugal,45000000,81,18,88,88,93
+14,Declan Rice,24,86,92,CM,England,75000000,86,72,74,71,75
+15,Martin Ødegaard,25,89,93,CAM,Norway,65000000,80,45,76,79,88

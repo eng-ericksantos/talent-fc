@@ -7,6 +7,9 @@ export type CategoriaJogador = 'wonderkid' | 'gem' | 'veteran' | 'legend';
 
 @Schema({ timestamps: true, collection: 'jogadores' })
 export class Jogador {
+  @Prop({ required: true, unique: true, index: true })
+  eaPlayerId: number;
+
   @Prop({ required: true })
   nome: string;
 
@@ -28,8 +31,30 @@ export class Jogador {
   @Prop({ required: true })
   valorMercado: string;
 
-  @Prop({ default: '' })
-  fotoUrl: string;
+  @Prop({ type: Object })
+  atributos?: Record<string, number>;
+
+  // Demais sub-atributos brutos da EA (defensiveAwareness, sprintSpeed, gkReflexes, etc.) — chaves em inglês (nomes originais da EA)
+  @Prop({ type: Object })
+  atributosEstendidos?: Record<string, number>;
+
+  @Prop()
+  matchPercentage?: number;
+
+  @Prop({ required: true })
+  resistencia: number;
+
+  @Prop({ required: true })
+  interceptacoes: number;
+
+  @Prop({ required: true })
+  ritmo: number;
+
+  @Prop({ required: true })
+  finalizacao: number;
+
+  @Prop({ required: true })
+  habilidades: number;
 
   @Prop({
     required: true,

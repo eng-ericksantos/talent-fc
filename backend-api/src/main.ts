@@ -4,6 +4,8 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
+import fastifyMultipart from '@fastify/multipart';
 import { initializeApp, cert } from 'firebase-admin/app';
 import * as path from 'path';
 import { AppModule } from './app.module';
@@ -21,12 +23,26 @@ async function bootstrap() {
     new FastifyAdapter({ logger: true }),
   );
 
+  // Registrar plugin de multipart antes de habilitar CORS
+  await app.register(fastifyMultipart, { limits: { fileSize: 52428800 } }); // 50MB
+
   app.enableCors({
     origin: ['http://localhost:4200', 'http://localhost:8100'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   });
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+    }),
+  );
 
   app.setGlobalPrefix('api/v1');
 
