@@ -87,6 +87,9 @@
     "POS_MEI": "Midfield",
     "POS_DEF": "Defense",
     "POS_GOL": "Goalkeeper",
+    "MAX_POT": "Maximum Potential",
+    "COUNTRY": "Country",
+    "SEARCH_COUNTRY": "Search country...",
     "APPLY_FILTERS": "Apply Filters",
     "FILTERS": "Filters"
   },
@@ -117,6 +120,18 @@
     "NEW_RECORDS": "New Records",
     "UPDATED": "Updated",
     "ERROR_UPLOAD": "Error uploading file",
+    "RESTORE_BACKUP_TITLE": "Restore Safe Backup",
+    "RESTORE_BACKUP_DESC": "Restore database data from a local backup file in case of failed updates.",
+    "RESTORE_BACKUP_BUTTON": "Restore Backup",
+    "RESTORE_BACKUP_MODAL_TITLE": "Select Backup for Restoration",
+    "RESTORE_BACKUP_MODAL_DESC": "Choose a backup file available in the repository.",
+    "SEARCH_BACKUP": "Filter Backups",
+    "LOADING_BACKUPS": "Loading backups...",
+    "NO_BACKUPS": "No backup files available.",
+    "RESTORING": "Restoring Backup...",
+    "ERROR_RESTORE": "Error restoring backup",
+    "CANCEL": "Cancel",
+    "APPLY_BACKUP": "Apply Backup",
     "ACESSO_NEGADO": "Access denied. Only administrators can access this panel."
   },
   "JOGADOR": {

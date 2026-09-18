@@ -14,36 +14,38 @@
       (change)="onFileSelected($event)" />
 
     <!-- Seção: Atualizar Scraper -->
-    <section class="bg-soccer-card rounded-2xl p-4 space-y-4 border border-white/5">
-      <div class="space-y-1">
-        <h2 class="text-soccer-green font-semibold text-sm uppercase tracking-wider">
-          {{ 'ADMIN.ACTIVE_CYCLE' | translate }}
-        </h2>
-        <p class="text-slate-400 text-xs">{{ 'ADMIN.ACTIVE_CYCLE_DESC' | translate }}</p>
-      </div>
+    @if (false) {
+      <section class="bg-soccer-card rounded-2xl p-4 space-y-4 border border-white/5">
+        <div class="space-y-1">
+          <h2 class="text-soccer-green font-semibold text-sm uppercase tracking-wider">
+            {{ 'ADMIN.ACTIVE_CYCLE' | translate }}
+          </h2>
+          <p class="text-slate-400 text-xs">{{ 'ADMIN.ACTIVE_CYCLE_DESC' | translate }}</p>
+        </div>
 
-      <div class="flex gap-2">
-        @for (versao of [25, 26, 27]; track versao) {
-          <button
-            (click)="activeVersion.set(versao)"
-            class="flex-1 h-11 flex items-center justify-center rounded-xl text-sm font-semibold border transition-colors"
-            [class]="activeVersion() === versao
-              ? 'bg-soccer-green text-slate-900 border-soccer-green'
-              : 'bg-slate-800 text-slate-400 border-slate-700/50'">
-            FC {{ versao }}
-          </button>
-        }
-      </div>
+        <div class="flex gap-2">
+          @for (versao of [25, 26, 27]; track versao) {
+            <button
+              (click)="activeVersion.set(versao)"
+              class="flex-1 h-11 flex items-center justify-center rounded-xl text-sm font-semibold border transition-colors"
+              [class]="activeVersion() === versao
+                ? 'bg-soccer-green text-slate-900 border-soccer-green'
+                : 'bg-slate-800 text-slate-400 border-slate-700/50'">
+              FC {{ versao }}
+            </button>
+          }
+        </div>
 
-      <button
-        (click)="runScraper()"
-        [disabled]="isSyncing()"
-        class="w-full h-11 flex items-center justify-center bg-soccer-green/10 text-soccer-green border border-soccer-green/30 font-semibold rounded-xl text-sm tracking-wide hover:bg-soccer-green/20 transition-colors"
-        [class.opacity-50]="isSyncing()"
-        [class.cursor-not-allowed]="isSyncing()">
-        {{ isSyncing() ? ('ADMIN.SYNCING' | translate) : ('ADMIN.UPDATE_SCRAPER' | translate) }}
-      </button>
-    </section>
+        <button
+          (click)="runScraper()"
+          [disabled]="isSyncing()"
+          class="w-full h-11 flex items-center justify-center bg-soccer-green/10 text-soccer-green border border-soccer-green/30 font-semibold rounded-xl text-sm tracking-wide hover:bg-soccer-green/20 transition-colors"
+          [class.opacity-50]="isSyncing()"
+          [class.cursor-not-allowed]="isSyncing()">
+          {{ isSyncing() ? ('ADMIN.SYNCING' | translate) : ('ADMIN.UPDATE_SCRAPER' | translate) }}
+        </button>
+      </section>
+    }
 
     <!-- Seção: Upload de CSV -->
     <section class="bg-soccer-card rounded-2xl p-4 space-y-4 border border-white/5">
@@ -71,8 +73,14 @@
 
       <!-- Nome do Arquivo Selecionado -->
       @if (selectedFileName()) {
-        <div class="p-3 bg-slate-900/50 rounded-lg border border-soccer-green/30 text-xs text-slate-300">
+        <div class="p-3 bg-slate-900/50 rounded-lg border border-soccer-green/30 text-xs text-slate-300 flex items-center justify-between">
           <span class="font-semibold text-soccer-green">{{ selectedFileName() }}</span>
+          <button
+            (click)="limparArquivoSelecionado()"
+            class="text-slate-500 hover:text-slate-300 transition-colors"
+            [attr.aria-label]="'COMMON.REMOVE' | translate">
+            ✕
+          </button>
         </div>
       }
 
@@ -128,7 +136,159 @@
         </div>
       }
     </section>
+
+    <!-- Seção: Restaurar Backup -->
+    <section class="bg-soccer-card rounded-2xl p-4 space-y-4 border border-white/5">
+      <div class="space-y-1">
+        <h2 class="text-soccer-green font-semibold text-sm uppercase tracking-wider">
+          {{ 'ADMIN.RESTORE_BACKUP_TITLE' | translate }}
+        </h2>
+        <p class="text-slate-400 text-xs">{{ 'ADMIN.RESTORE_BACKUP_DESC' | translate }}</p>
+      </div>
+
+      <button
+        (click)="abrirModalRestauracao()"
+        [disabled]="adminService.restoring()"
+        class="w-full h-11 flex items-center justify-center bg-soccer-green/10 text-soccer-green border border-soccer-green/30 font-semibold rounded-xl text-sm tracking-wide hover:bg-soccer-green/20 transition-colors"
+        [class.opacity-50]="adminService.restoring()"
+        [class.cursor-not-allowed]="adminService.restoring()">
+        {{ adminService.restoring() ? ('ADMIN.RESTORING' | translate) : ('ADMIN.RESTORE_BACKUP_BUTTON' | translate) }}
+      </button>
+    </section>
   </div>
+
+  <!-- Modal: Restaurar Backup -->
+  @if (showRestoreModal()) {
+    <!-- Overlay -->
+    <div
+      class="fixed inset-0 bg-black/50 z-40 flex items-end sm:items-center justify-center"
+      (click)="fecharModalRestauracao()">
+      <!-- Card Modal -->
+      <div
+        class="bg-soccer-card rounded-t-3xl sm:rounded-2xl w-full sm:w-full sm:max-w-lg border border-white/5 shadow-2xl max-h-[80vh] flex flex-col"
+        (click)="$event.stopPropagation()">
+        <!-- Header -->
+        <div class="border-b border-white/10 p-4 flex items-center justify-between sticky top-0 bg-soccer-card rounded-t-3xl sm:rounded-t-2xl">
+          <div class="space-y-1 flex-1">
+            <h3 class="text-lg font-semibold text-slate-100">
+              {{ 'ADMIN.RESTORE_BACKUP_MODAL_TITLE' | translate }}
+            </h3>
+            <p class="text-xs text-slate-400">{{ 'ADMIN.RESTORE_BACKUP_MODAL_DESC' | translate }}</p>
+          </div>
+          <button
+            (click)="fecharModalRestauracao()"
+            class="text-slate-500 hover:text-slate-300 transition-colors text-2xl leading-none">
+            ×
+          </button>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 overflow-y-auto p-4 space-y-4">
+          <!-- Campo de Filtro -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-2">
+              {{ 'ADMIN.SEARCH_BACKUP' | translate }}
+            </label>
+            <input
+              type="text"
+              [(ngModel)]="backupFilterText"
+              placeholder="Digite para filtrar..."
+              class="w-full px-3 py-2 bg-slate-900 border border-slate-700/50 rounded-lg text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-soccer-green/50 transition-colors" />
+          </div>
+
+          <!-- Erro ao Carregar Backups -->
+          @if (adminService.backupsError()) {
+            <div class="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-xs text-red-500">
+              {{ adminService.backupsError() }}
+            </div>
+          }
+
+          <!-- Carregando -->
+          @if (adminService.loadingBackups()) {
+            <div class="flex items-center justify-center py-8">
+              <div class="text-slate-400 text-sm">{{ 'ADMIN.LOADING_BACKUPS' | translate }}</div>
+            </div>
+          } @else {
+            <!-- Lista de Backups -->
+            @if (filteredBackups().length > 0) {
+              <div class="space-y-2 max-h-64 overflow-y-auto">
+                @for (backup of filteredBackups(); track backup) {
+                  <button
+                    (click)="selecionarBackup(backup)"
+                    class="w-full text-left p-3 bg-slate-900/50 border rounded-lg transition-all hover:bg-slate-800 text-sm"
+                    [class]="selectedBackup() === backup
+                      ? 'border-soccer-green bg-soccer-green/10 text-soccer-green'
+                      : 'border-slate-700/50 text-slate-300 hover:border-slate-600'">
+                    <div class="flex items-center gap-2">
+                      @if (selectedBackup() === backup) {
+                        <span class="text-lg">✓</span>
+                      } @else {
+                        <span class="text-lg text-slate-500">○</span>
+                      }
+                      <span class="truncate font-mono text-xs">{{ backup }}</span>
+                    </div>
+                  </button>
+                }
+              </div>
+            } @else {
+              <div class="text-center py-8 text-slate-400 text-sm">
+                {{ 'ADMIN.NO_BACKUPS' | translate }}
+              </div>
+            }
+          }
+
+          <!-- Resultado: Sucesso -->
+          @if (adminService.restoreResult()) {
+            <div class="p-4 bg-green-500/10 border border-green-500/30 rounded-xl space-y-2">
+              <div class="flex items-start gap-3">
+                <span class="text-xl text-green-500">✓</span>
+                <div class="flex-1 space-y-1">
+                  <p class="text-sm font-semibold text-green-500">{{ adminService.restoreResult()!.mensagem }}</p>
+                  <p class="text-xs text-slate-400">
+                    {{ 'ADMIN.TOTAL_PLAYERS' | translate }}: {{ adminService.restoreResult()!.totalJogadoresValidos }}
+                  </p>
+                  <p class="text-xs text-slate-400">
+                    {{ 'ADMIN.NEW_RECORDS' | translate }}: {{ adminService.restoreResult()!.operacoes.insercoes }} |
+                    {{ 'ADMIN.UPDATED' | translate }}: {{ adminService.restoreResult()!.operacoes.atualizacoes }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          }
+
+          <!-- Resultado: Erro -->
+          @if (adminService.restoreError()) {
+            <div class="p-4 bg-red-500/10 border border-red-500/30 rounded-xl space-y-2">
+              <div class="flex items-start gap-3">
+                <span class="text-xl text-red-500">⚠</span>
+                <div class="flex-1 space-y-1">
+                  <p class="text-sm font-semibold text-red-500">{{ 'ADMIN.ERROR_RESTORE' | translate }}</p>
+                  <p class="text-xs text-slate-400">{{ adminService.restoreError() }}</p>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Footer: Botões de Ação -->
+        <div class="border-t border-white/10 p-4 flex gap-2 bg-soccer-card/50 sticky bottom-0 rounded-b-3xl sm:rounded-b-2xl">
+          <button
+            (click)="fecharModalRestauracao()"
+            class="flex-1 h-10 flex items-center justify-center bg-slate-800 text-slate-300 border border-slate-700/50 font-semibold rounded-lg text-sm hover:bg-slate-700 transition-colors">
+            {{ 'ADMIN.CANCEL' | translate }}
+          </button>
+          <button
+            (click)="restaurarBackup()"
+            [disabled]="adminService.restoring() || !selectedBackup() || adminService.loadingBackups()"
+            class="flex-1 h-10 flex items-center justify-center bg-soccer-green/10 text-soccer-green border border-soccer-green/30 font-semibold rounded-lg text-sm hover:bg-soccer-green/20 transition-colors"
+            [class.opacity-50]="adminService.restoring() || !selectedBackup() || adminService.loadingBackups()"
+            [class.cursor-not-allowed]="adminService.restoring() || !selectedBackup() || adminService.loadingBackups()">
+            {{ adminService.restoring() ? ('ADMIN.RESTORING' | translate) : ('ADMIN.APPLY_BACKUP' | translate) }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 } @else {
   <div class="min-h-screen bg-soccer-dark flex items-center justify-center p-4">
     <div class="text-center space-y-4">

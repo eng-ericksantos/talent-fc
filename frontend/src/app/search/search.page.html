@@ -46,10 +46,9 @@
   }
 
   <!-- Bottom Sheet de Filtros -->
-  <div
-    class="fixed bottom-0 left-0 right-0 bg-slate-900 rounded-t-3xl p-6 z-50 transform transition-transform duration-300 shadow-2xl"
-    [class.translate-y-0]="isFilterOpen()"
-    [class.translate-y-full]="!isFilterOpen()">
+  @if (isFilterOpen()) {
+    <div
+      class="fixed bottom-0 left-0 right-0 bg-slate-900 rounded-t-3xl p-6 z-50 transform transition-transform duration-300 shadow-2xl translate-y-0">
 
     <!-- Header -->
     <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-700">
@@ -99,7 +98,104 @@
       </div>
     </div>
 
-    <!-- Posição -->
+    <!-- Potencial Máximo (MAX POT) -->
+    <div class="mb-6">
+      <label class="block text-sm font-semibold text-slate-300 mb-2">
+        {{ 'SEARCH.MAX_POT' | translate }}: <span class="text-soccer-green">{{ maxPot() }}</span>
+      </label>
+      <input
+        type="range"
+        min="60"
+        max="99"
+        [value]="maxPot()"
+        (change)="maxPot.set(+$any($event.target).value)"
+        class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-soccer-green">
+      <div class="flex justify-between text-xs text-slate-500 mt-1">
+        <span>60</span>
+        <span>99</span>
+      </div>
+    </div>
+
+    <!-- País com Autocomplete e Bandeiras Reais -->
+    <div class="mb-6">
+      <label class="block text-sm font-semibold text-slate-300 mb-3">
+        {{ 'SEARCH.COUNTRY' | translate }}
+      </label>
+      <div class="relative">
+        <div class="relative flex items-center">
+          <div class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-4 pointer-events-none opacity-60">
+            @if (country()) {
+              <img
+                [src]="getCountryFlagUrl(country())"
+                [alt]="country()"
+                class="w-full h-full object-cover rounded"
+                onerror="this.style.display='none'">
+            } @else {
+              <svg class="w-full h-full text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14m7-7H5"/>
+              </svg>
+            }
+          </div>
+          <input
+            type="text"
+            [ngModel]="countryQuery()"
+            (ngModelChange)="countryQuery.set($event); showCountrySuggestions.set(true)"
+            (focus)="showCountrySuggestions.set(true)"
+            (blur)="ocultarSugestoes()"
+            [placeholder]="'SEARCH.SEARCH_COUNTRY' | translate"
+            class="w-full pl-11 pr-4 py-3 bg-slate-700/30 border border-slate-600/50 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-soccer-green focus:bg-slate-700/50 focus:ring-1 focus:ring-soccer-green/30 transition-all duration-200 text-sm">
+        </div>
+
+        <!-- Sugestões de Países com Bandeiras -->
+        @if (showCountrySuggestions() && filteredCountries().length > 0) {
+          <div class="absolute top-full left-0 right-0 mt-2 bg-slate-800/95 backdrop-blur-sm border border-slate-700/60 rounded-xl shadow-2xl max-h-60 overflow-y-auto z-50">
+            @for (pais of filteredCountries(); track pais) {
+              <button
+                type="button"
+                (click)="selecionarPais(pais)"
+                class="w-full px-6 py-4 text-left text-slate-200 hover:bg-soccer-green/15 hover:text-soccer-green transition-all duration-150 flex items-center gap-3 border-b border-slate-700/40 last:border-b-0 group">
+                <!-- Bandeira em miniatura -->
+                <div class="w-6 h-4 flex-shrink-0 rounded overflow-hidden bg-slate-600/30 flex items-center justify-center">
+                  <img
+                    [src]="getCountryFlagUrl(pais)"
+                    [alt]="pais"
+                    class="w-full h-full object-cover"
+                    onerror="this.parentElement.innerHTML='🚩'">
+                </div>
+                <!-- Nome do país -->
+                <span class="text-sm font-medium flex-1">{{ pais }}</span>
+                <!-- Ícone de seleção -->
+                <svg class="w-4 h-4 text-soccer-green opacity-0 group-hover:opacity-100 transition-opacity" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Badge de Seleção -->
+      @if (country()) {
+        <div class="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-soccer-green/20 to-emerald-500/10 border border-soccer-green/40 rounded-lg hover:border-soccer-green/60 transition-all group">
+          <div class="w-5 h-3.5 rounded flex items-center justify-center flex-shrink-0">
+            <img
+              [src]="getCountryFlagUrl(country())"
+              [alt]="country()"
+              class="w-full h-full object-cover rounded"
+              onerror="this.style.display='none'">
+          </div>
+          <span class="text-sm text-soccer-green font-semibold">{{ country() }}</span>
+          <button
+            type="button"
+            (click)="country.set('')"
+            class="ml-1 text-soccer-green/70 hover:text-soccer-green hover:bg-soccer-green/20 rounded-full p-0.5 transition-all">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+        </div>
+      }
+    </div>
     <div class="mb-6">
       <label class="block text-sm font-semibold text-slate-300 mb-3">
         {{ 'SEARCH.POSITION' | translate }}
@@ -175,7 +271,8 @@
       {{ 'SEARCH.APPLY_FILTERS' | translate }}
     </button>
 
-  </div>
+    </div>
+  }
 
   <div class="px-4 pt-4">
 

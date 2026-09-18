@@ -9,6 +9,7 @@ services:
       - "3000:3000"
     volumes:
       - ./backend-api/firebase-service-account.json:/app/firebase-service-account.json
+      - ./data-worker/data:/app/../data-worker/data
     environment:
       - NODE_ENV=production
       - MONGODB_URI=mongodb://mongo:27017/talentfc

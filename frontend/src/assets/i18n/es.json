@@ -87,6 +87,9 @@
     "POS_MEI": "Centrocampo",
     "POS_DEF": "Defensa",
     "POS_GOL": "Portero",
+    "MAX_POT": "Potencial Máximo",
+    "COUNTRY": "País",
+    "SEARCH_COUNTRY": "Buscar país...",
     "APPLY_FILTERS": "Aplicar Filtros",
     "FILTERS": "Filtros"
   },
@@ -117,6 +120,18 @@
     "NEW_RECORDS": "Nuevos Registros",
     "UPDATED": "Actualizados",
     "ERROR_UPLOAD": "Error al cargar archivo",
+    "RESTORE_BACKUP_TITLE": "Restaurar Copia de Seguridad Segura",
+    "RESTORE_BACKUP_DESC": "Restaure los datos de la base de datos desde un archivo de copia de seguridad local en caso de actualizaciones fallidas.",
+    "RESTORE_BACKUP_BUTTON": "Restaurar Copia de Seguridad",
+    "RESTORE_BACKUP_MODAL_TITLE": "Seleccionar Copia de Seguridad para Restaurar",
+    "RESTORE_BACKUP_MODAL_DESC": "Elija un archivo de copia de seguridad disponible en el repositorio.",
+    "SEARCH_BACKUP": "Filtrar Copias de Seguridad",
+    "LOADING_BACKUPS": "Cargando copias de seguridad...",
+    "NO_BACKUPS": "No hay archivos de copia de seguridad disponibles.",
+    "RESTORING": "Restaurando Copia de Seguridad...",
+    "ERROR_RESTORE": "Error al restaurar copia de seguridad",
+    "CANCEL": "Cancelar",
+    "APPLY_BACKUP": "Aplicar Copia de Seguridad",
     "ACESSO_NEGADO": "Acceso denegado. Solo los administradores pueden acceder a este panel."
   },
   "JOGADOR": {

@@ -87,6 +87,9 @@
     "POS_MEI": "Meio-campo",
     "POS_DEF": "Defesa",
     "POS_GOL": "Goleiro",
+    "MAX_POT": "Potencial Máximo",
+    "COUNTRY": "País",
+    "SEARCH_COUNTRY": "Buscar país...",
     "APPLY_FILTERS": "Aplicar Filtros",
     "FILTERS": "Filtros"
   },
@@ -117,6 +120,18 @@
     "NEW_RECORDS": "Novos Registros",
     "UPDATED": "Atualizados",
     "ERROR_UPLOAD": "Erro ao fazer upload",
+    "RESTORE_BACKUP_TITLE": "Restaurar Backup Seguro",
+    "RESTORE_BACKUP_DESC": "Restaure dados do banco de dados a partir de um arquivo de backup local em caso de atualizações falhas.",
+    "RESTORE_BACKUP_BUTTON": "Restaurar Backup",
+    "RESTORE_BACKUP_MODAL_TITLE": "Selecionar Backup para Restauração",
+    "RESTORE_BACKUP_MODAL_DESC": "Escolha um arquivo de backup disponível no repositório.",
+    "SEARCH_BACKUP": "Filtrar Backups",
+    "LOADING_BACKUPS": "Carregando backups...",
+    "NO_BACKUPS": "Nenhum arquivo de backup disponível.",
+    "RESTORING": "Restaurando Backup...",
+    "ERROR_RESTORE": "Erro ao restaurar backup",
+    "CANCEL": "Cancelar",
+    "APPLY_BACKUP": "Aplicar Backup",
     "ACESSO_NEGADO": "Acesso negado. Apenas administradores podem acessar este painel."
   },
   "JOGADOR": {

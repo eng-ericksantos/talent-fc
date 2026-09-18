@@ -9,7 +9,9 @@ type Categoria = 'wonderkid' | 'gem' | 'veteran';
 export interface SearchFilters {
   maxAge?: number;
   minPot?: number;
+  maxPot?: number;
   position?: string;
+  country?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -150,8 +152,14 @@ export class PlayerService {
     if (filtros.minPot) {
       url += `&minPot=${filtros.minPot}`;
     }
+    if (filtros.maxPot) {
+      url += `&maxPot=${filtros.maxPot}`;
+    }
     if (filtros.position) {
       url += `&position=${encodeURIComponent(filtros.position)}`;
+    }
+    if (filtros.country) {
+      url += `&country=${encodeURIComponent(filtros.country)}`;
     }
 
     this.#http
