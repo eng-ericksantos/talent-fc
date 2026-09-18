@@ -37,12 +37,14 @@ export class PlayersController {
       'Quando o parâmetro `search` é informado, filtra por nome, nacionalidade ou posição — ' +
       'ou, se o termo bater com uma lenda conhecida (ex: "zidane", "ronaldinho"), ativa o ' +
       'Modo Herdeiros da Lenda e retorna `legendMatched` com a chave da lenda ativada. ' +
-      'Suporta filtros avançados: maxAge, minPot e position.',
+      'Suporta filtros avançados: maxAge, minPot, maxPot, position e country.',
   })
   @ApiQuery({ name: 'search', required: false, description: 'Busca parcial por nome/nacionalidade/posição, ou o nome de uma lenda (zidane, ronaldinho, kante, ronaldo)' })
   @ApiQuery({ name: 'maxAge', required: false, description: 'Idade máxima do jogador (15-40)' })
   @ApiQuery({ name: 'minPot', required: false, description: 'Potencial mínimo do jogador (70-99)' })
+  @ApiQuery({ name: 'maxPot', required: false, description: 'Potencial máximo do jogador (70-99)' })
   @ApiQuery({ name: 'position', required: false, description: 'Posição do jogador (ATA, MEI, DEF, GOL)' })
+  @ApiQuery({ name: 'country', required: false, description: 'País/Nacionalidade do jogador' })
   @ApiQuery({ name: 'page', required: false, description: 'Número da página (padrão: 1)' })
   @ApiQuery({ name: 'limit', required: false, description: 'Itens por página (padrão: 20)' })
   @ApiResponse({ status: 200, description: 'Objeto paginado { data, total, page, totalPages }.' })
@@ -50,13 +52,15 @@ export class PlayersController {
     @Query('search') query?: string,
     @Query('maxAge') maxAge?: string,
     @Query('minPot') minPot?: string,
+    @Query('maxPot') maxPot?: string,
     @Query('position') position?: string,
+    @Query('country') country?: string,
     @Query('page') page = '1',
     @Query('limit') limit = '20',
   ) {
     const paginaNum = Math.max(1, parseInt(page, 10) || 1);
     const limitNum = Math.min(100, Math.max(1, parseInt(limit, 10) || 20));
-    if (query) return this.playersService.search(query, paginaNum, limitNum, { maxAge, minPot, position });
+    if (query) return this.playersService.search(query, paginaNum, limitNum, { maxAge, minPot, maxPot, position, country });
     return this.playersService.findAll(paginaNum, limitNum);
   }
 

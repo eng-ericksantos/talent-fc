@@ -70,7 +70,7 @@ export class PlayersService {
     query: string,
     page = 1,
     limit = 20,
-    filtros?: { maxAge?: string; minPot?: string; position?: string },
+    filtros?: { maxAge?: string; minPot?: string; maxPot?: string; position?: string; country?: string },
   ): Promise<RespostaPaginada<JogadorDocument>> {
     const chaveLenda = query.trim().toLowerCase();
     const perfilLenda = LEGEND_PROFILES[chaveLenda];
@@ -94,8 +94,17 @@ export class PlayersService {
       if (filtros.minPot) {
         filtro['potencial'] = { $gte: Number(filtros.minPot) };
       }
+      if (filtros.maxPot) {
+        if (!filtro['potencial']) {
+          filtro['potencial'] = {};
+        }
+        filtro['potencial']['$lte'] = Number(filtros.maxPot);
+      }
       if (filtros.position && filtros.position.trim()) {
         filtro['posicao'] = filtros.position.toUpperCase();
+      }
+      if (filtros.country && filtros.country.trim()) {
+        filtro['nacionalidade'] = filtros.country.trim();
       }
     }
 
