@@ -1,0 +1,71 @@
+name: Build APK do TalentFC
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Tipo de build'
+        required: false
+        default: 'debug'
+        type: choice
+        options:
+          - debug
+          - release
+
+jobs:
+  build-android-apk:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout código
+        uses: actions/checkout@v4
+
+      - name: 🔧 Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'frontend/package-lock.json'
+
+      - name: 📦 Instalar dependências do frontend
+        working-directory: frontend
+        run: npm install
+
+      - name: 🔨 Build do Angular
+        working-directory: frontend
+        run: npm run build
+
+      - name: ⚙️ Setup Java SDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+
+      - name: 📱 Sincronizar Capacitor
+        working-directory: frontend
+        run: |
+          npx cap sync android
+
+      - name: 🏗️ Conceder permissão ao Gradle
+        working-directory: frontend/android
+        run: chmod +x gradlew
+
+      - name: 🚀 Build do APK (Debug)
+        working-directory: frontend/android
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: 📤 Upload do APK como artefato
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: TalentFC-APK
+          path: frontend/android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: ✅ Build concluído com sucesso
+        run: echo "🎉 APK compilado e disponível para download!"
+
+      - name: ❌ Build falhou
+        if: failure()
+        run: echo "❌ Erro durante a compilação. Verifique os logs acima."
