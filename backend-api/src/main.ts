@@ -6,6 +6,7 @@ import {
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import fastifyMultipart from '@fastify/multipart';
+import helmet from 'helmet';
 import { initializeApp, cert } from 'firebase-admin/app';
 import * as path from 'path';
 import { AppModule } from './app.module';
@@ -25,6 +26,9 @@ async function bootstrap() {
 
   // Registrar plugin de multipart antes de habilitar CORS
   await app.register(fastifyMultipart, { limits: { fileSize: 52428800 } }); // 50MB
+
+  // Aplicar Helmet para blindagem de headers HTTP
+  app.use(helmet());
 
   app.enableCors({
     origin: ['http://localhost:4200', 'http://localhost:8100'],

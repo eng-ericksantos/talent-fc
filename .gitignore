@@ -8,12 +8,22 @@ yarn-error.log*
 
 # ── Ambiente ──────────────────────────────────────────────────────────────────
 .env
-.env.*
+.env.production
+.env.local
+.env.*.local
 !.env.example
+*.pem
+*-private-key.json
+*firebase-adminsdk*.json
+firebase-service-account.json
+credentials.json
+config/secrets/
 
 # ── NestJS / Backend ──────────────────────────────────────────────────────────
 backend-api/dist/
+backend-api/build/
 backend-api/coverage/
+backend-api/.nest-cli-context.json
 
 # ── Angular / Frontend ────────────────────────────────────────────────────────
 frontend/dist/
@@ -28,6 +38,8 @@ frontend/.capacitor/
 
 # ── Docker ────────────────────────────────────────────────────────────────────
 mongo_data/
+postgres_data/
+redis_data/
 **/docker-volumes/
 
 # ── VS Code ───────────────────────────────────────────────────────────────────
@@ -46,6 +58,31 @@ Desktop.ini
 *.tmp
 *.swp
 *.swo
+import-output.txt
+logs/
 
 # ── Keys Produção ────────────────────────────────────────────────────────
 firebase-service-account.json
+
+# ── Python / Data Worker ──────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+data-worker/venv/
+data-worker/env/
+
+# ── IDE ───────────────────────────────────────────────────────────────────────
+.idea/
+*.sublime-project
+*.sublime-workspace
+.vs/
+
+# ── Testing / Performance ────────────────────────────────────────────────────
+performance-tests/results/
+.jest/
+test-results/
+coverage/
+htmlcov/
+
+# ── Git Cache ─────────────────────────────────────────────────────────────────
+.git/cache
+.git/index.lock

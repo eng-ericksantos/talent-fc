@@ -1,0 +1,46 @@
+# ── Node ─────────────────────────────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp
+.pnp.js
+
+# ── Segredos e Variáveis de Ambiente ──────────────────────────────────────────
+.env
+.env.production
+.env.local
+*.pem
+*-private-key.json
+*firebase-adminsdk*.json
+firebase-service-account.json
+
+# ── NestJS / Backend ──────────────────────────────────────────────────────────
+dist/
+build/
+coverage/
+.nest-cli-context.json
+
+# ── Logs e temporários ────────────────────────────────────────────────────────
+logs/
+*.log
+import-output.txt
+
+# ── IDE ───────────────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# ── Sistema Operacional ───────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ── Git ───────────────────────────────────────────────────────────────────────
+.git/
+.gitkeep
+
+# ── Testing ───────────────────────────────────────────────────────────────────
+.jest/
+test-results/

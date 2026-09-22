@@ -9,8 +9,18 @@
 UserInterfaceState.xcuserstate
 $RECYCLE.BIN/
 
+# ── Segredos e Variáveis de Ambiente ──────────────────────────────────────────
+.env
+.env.production
+.env.local
+*.pem
+*-private-key.json
+*firebase-adminsdk*.json
+firebase-service-account.json
+
 *.log
 log.txt
+import-output.txt
 
 
 /.sourcemaps

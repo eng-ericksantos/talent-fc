@@ -1,12 +1,20 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { AdminModule } from './admin/admin.module';
 import { PlayersModule } from './players/players.module';
 import { FavoritesModule } from './favorites/favorites.module';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000, // 1 minuto (em milissegundos)
+        limit: 100, // máximo de 100 requisições por minuto por IP
+      },
+    ]),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
@@ -25,6 +33,12 @@ import { FavoritesModule } from './favorites/favorites.module';
     PlayersModule,
     AdminModule,
     FavoritesModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}
