@@ -33,7 +33,7 @@ jobs:
 
       - name: ⚙️ Instalar Capacitor Android (plataforma nativa)
         working-directory: frontend
-        run: npm install @capacitor/android
+        run: npm install @capacitor/android@8.4.0
 
       - name: 🔨 Build do Angular
         working-directory: frontend
